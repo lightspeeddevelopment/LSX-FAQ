@@ -1,5 +1,6 @@
 <?php
 namespace lsx;
+
 /**
  * Main Class
  *
@@ -9,7 +10,7 @@ namespace lsx;
  * @link
  * @copyright 2017 LightSpeedDevelopment
  */
-class lsx_faq {
+class LSX_Faq {
 	/**
 	 * Holds the edit class
 	 * @var array
@@ -47,6 +48,6 @@ class lsx_faq {
 	 * Setup hooks and text load domain
 	 */
 	public function setup() {
-		$this->edit = new Lsx_Faq_Edit();
+		$this->edit = new LSX_Faq_Edit();
 	}
 }

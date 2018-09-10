@@ -1,4 +1,3 @@
-
 <?php
 /*
  * Plugin Name: WooCommerce Subscription Date Based Downloads
