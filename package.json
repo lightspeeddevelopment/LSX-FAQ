@@ -1,0 +1,24 @@
+{
+  "name": "LSX-FAQ",
+  "version": "1.0.0",
+  "description": "FAQ Addon for LSX",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git"
+  },
+  "keywords": [
+    "lsx",
+    "addon"
+  ],
+  "author": "LightSpeed",
+  "license": "GPL2+",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+
+}
