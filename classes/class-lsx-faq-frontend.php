@@ -1,4 +1,6 @@
 <?php
+namespace lsx;
+
 /**
  * LSX FAQ Frontend Class
  *
@@ -8,11 +10,28 @@
  * @link
  * @copyright 2016 LightSpeed
  */
-class LSX_Faq_Frontend
+class LSX_FAQ_Frontend
 {
+	/**
+	 * Holds instance of the class
+	 */
+	private static $instance;
 
-
- 
+	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+	}
+	/**
+	 * Return an instance of this class.
+	 *
+	 * @return  object
+	 */
+	public static function init() {
+		// If the single instance hasn't been set, set it now.
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
 }//end class
-
-$lsx_faq_frontend = new LSX_Faq_Frontend();

@@ -15,8 +15,15 @@
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
+
 define( 'LSX_FAQ_PATH', plugin_dir_path( __FILE__ ) );
 define( 'LSX_FAQ_CORE', __FILE__ );
 define( 'LSX_FAQ_URL', plugin_dir_url( __FILE__ ) );
 define( 'LSX_FAQ_VER', '1.0.0' );
+
 require_once( LSX_FAQ_PATH . 'classes/class-lsx-faq.php' );
+
+$lsx_faq = lsx_faq();
+function lsx_faq() {
+	return \lsx\LSX_FAQ::init();
+}

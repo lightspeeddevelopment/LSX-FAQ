@@ -10,7 +10,7 @@ namespace lsx;
  * @link
  * @copyright 2017 LightSpeedDevelopment
  */
-class LSX_Faq {
+class LSX_FAQ {
 	/**
 	 * Holds the admin class
 	 * @var array
@@ -49,7 +49,7 @@ class LSX_Faq {
 	 * Setup hooks and text load domain
 	 */
 	public function setup() {
-		$this->admin = new LSX_Faq_Admin();
-		$this->frontend = new LSX_Faq_Frontend();
+		$this->admin = LSX_FAQ_Admin::init();
+		//$this->frontend = new LSX_Faq_Frontend();
 	}
 }

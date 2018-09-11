@@ -1,4 +1,6 @@
 <?php
+namespace lsx;
+
 /**
  * LSX FAQ Admin Class
  *
@@ -8,8 +10,32 @@
  * @link
  * @copyright 2016 LightSpeed
  */
-class LSX_Faq_Admin
+class LSX_FAQ_Admin
 {
+
+	/**
+	 * Holds instance of the class
+	 */
+	private static $instance;
+
+	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+
+	}
+	/**
+	 * Return an instance of this class.
+	 *
+	 * @return  object
+	 */
+	public static function init() {
+		// If the single instance hasn't been set, set it now.
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
 
 	/**
 	 * Register the FAQ and Product Tag post type
@@ -140,7 +166,7 @@ class LSX_Faq_Admin
 			),
 		);
 
- $group_fields = array(
+            $group_fields = array(
             array(
                 'name' => esc_html__( 'Question:', 'lsx-faq' ),
                 'id'   => 'faqquestion',
@@ -314,5 +340,3 @@ class LSX_Faq_Admin
 	}
 
 }//end class
-
-$lsx_faq_admin = new LSX_Faq_Admin();
