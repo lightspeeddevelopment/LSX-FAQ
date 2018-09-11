@@ -10,8 +10,9 @@ namespace lsx;
  * @link
  * @copyright 2016 LightSpeed
  */
-class LSX_FAQ_Admin
+class LSX_FAQ_Admin 
 {
+
 
 	/**
 	 * Holds instance of the class
@@ -22,6 +23,15 @@ class LSX_FAQ_Admin
 	 * Constructor.
 	 */
 	public function __construct() {
+		if ( ! class_exists( 'CMB_Meta_Box' ) ) {
+			require_once( LSX_DOCUMENTATION_PATH . '/vendor/Custom-Meta-Boxes/custom-meta-boxes.php' );
+		}
+		add_action( 'init', array( $this, 'post_type_setup' ) );
+		add_action( 'init', array( $this, 'taxonomy_setup' ) );
+		add_action( 'init', array( $this, 'product_taxonomy_setup' ) );
+		add_filter( 'cmb_meta_boxes', array( $this, 'field_setup' ) );
+		add_action( 'cmb_save_custom', array( $this, 'post_relations' ), 3, 20 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'assets' ) );
 
 	}
 	/**
@@ -178,81 +188,7 @@ class LSX_FAQ_Admin
                 'type' => 'textarea',
             ),
         );        
-		// $fields[] = array(
-		// 	'name' => esc_html__( 'FAQ:', 'lsx-faq' ),
-		// 	'id' => 'faq_to_faq',
-		// 	'type' => 'post_select',
-		// 	'use_ajax' => false,
-		// 	'query' => array(
-		// 		'post_type' => 'faq',
-		// 		'nopagin' => true,
-		// 		'posts_per_page' => '50',
-		// 		'orderby' => 'title',
-		// 		'order' => 'ASC',
-		// 	),
-		// 	'repeatable' => true,
-		// 	'allow_none' => true,
-		// 	'cols' => 12,
-		// );
-
-		if ( class_exists( 'LSX_Services' ) ) {
-			$fields[] = array(
-				'name' => esc_html__( 'Services related to this faq:', 'lsx-faq' ),
-				'id' => 'service_to_faq',
-				'type' => 'post_select',
-				'use_ajax' => false,
-				'query' => array(
-					'post_type' => 'service',
-					'nopagin' => true,
-					'posts_per_page' => '50',
-					'orderby' => 'title',
-					'order' => 'ASC',
-				),
-				'repeatable' => true,
-				'allow_none' => true,
-				'cols' => 12,
-			);
-		}
-
-		if ( class_exists( 'LSX_Testimonials' ) ) {
-			$fields[] = array(
-				'name' => esc_html__( 'Testimonials related to this faq:', 'lsx-faq' ),
-				'id' => 'testimonial_to_faq',
-				'type' => 'post_select',
-				'use_ajax' => false,
-				'query' => array(
-					'post_type' => 'testimonial',
-					'nopagin' => true,
-					'posts_per_page' => '50',
-					'orderby' => 'title',
-					'order' => 'ASC',
-				),
-				'repeatable' => true,
-				'allow_none' => true,
-				'cols' => 12,
-			);
-		}
-
-		if ( class_exists( 'LSX_Team' ) ) {
-			$fields[] = array(
-				'name' => esc_html__( 'Team members involved with this faq:', 'lsx-faq' ),
-				'id' => 'team_to_faq',
-				'type' => 'post_select',
-				'use_ajax' => false,
-				'query' => array(
-					'post_type' => 'team',
-					'nopagin' => true,
-					'posts_per_page' => '50',
-					'orderby' => 'title',
-					'order' => 'ASC',
-				),
-				'repeatable' => true,
-				'allow_none' => true,
-				'cols' => 12,
-			);
-		}
-
-
+	
 		if ( class_exists( 'woocommerce' ) ) {
 			$fields[] = array(
 				'name' => esc_html__( 'Products used for this faq:', 'lsx-faq' ),
@@ -339,4 +275,15 @@ class LSX_FAQ_Admin
 		}
 	}
 
-}//end class
+	public function assets() {
+		// wp_enqueue_media();.
+		wp_enqueue_script( 'media-upload' );
+		wp_enqueue_script( 'thickbox' );
+		wp_enqueue_style( 'thickbox' );
+
+		wp_enqueue_script( 'lsx-faq-admin', LSX_FAQ_URL . 'assets/js/lsx-faq-admin.min.js', array( 'jquery' ), LSX_FAQ_VER, true );
+		wp_enqueue_style( 'lsx-faq-admin', LSX_FAQ_URL . 'assets/css/lsx-faq-admin.css', array(), LSX_FAQ_VER );
+	}
+
+}
+//end class

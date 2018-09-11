@@ -50,6 +50,6 @@ class LSX_FAQ {
 	 */
 	public function setup() {
 		$this->admin = LSX_FAQ_Admin::init();
-		//$this->frontend = new LSX_Faq_Frontend();
+		$this->frontend = LSX_FAQ_Frontend::init();
 	}
 }
