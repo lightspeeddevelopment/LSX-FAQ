@@ -29,7 +29,8 @@ class LSX_Faq {
 	 * Constructor.
 	 */
 	public function __construct() {
-		require_once( LSX_FAQ_PATH . 'classes/class-lsx-faq.php' );
+		require_once( LSX_FAQ_PATH . 'classes/class-lsx-faq-admin.php' );
+		require_once( LSX_FAQ_PATH . 'classes/class-lsx-faq-frontend.php' );
 		$this->setup();
 	}
 	/**

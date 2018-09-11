@@ -1,8 +1,8 @@
 <?php
 /*
- * Plugin Name: WooCommerce Subscription Date Based Downloads
+ * Plugin Name: LSX FAQs Extension
  * Plugin URI:  https://www.lsdev.biz/
- * Description: Allows you to set a custom date for a downloadable file for WooCommerce.
+ * Description: Adds a FAQs post type 
  * Version:     1.0.0
  * Author:      LightSpeed
  * Author URI:  https://www.lsdev.biz/
