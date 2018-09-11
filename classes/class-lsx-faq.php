@@ -12,12 +12,12 @@ namespace lsx;
  */
 class LSX_Faq {
 	/**
-	 * Holds the edit class
+	 * Holds the admin class
 	 * @var array
 	 */
-	var $edit = false;
+	var $admin = false;
 	/**
-	 * Holds the edit class
+	 * Holds the admin class
 	 * @var array
 	 */
 	var $frontend = false;
@@ -29,7 +29,7 @@ class LSX_Faq {
 	 * Constructor.
 	 */
 	public function __construct() {
-		require_once( WC_PDD_PATH . 'classes/class-lsx-faq.php' );
+		require_once( LSX_FAQ_PATH . 'classes/class-lsx-faq.php' );
 		$this->setup();
 	}
 	/**
@@ -48,6 +48,7 @@ class LSX_Faq {
 	 * Setup hooks and text load domain
 	 */
 	public function setup() {
-		$this->edit = new LSX_Faq_Edit();
+		$this->admin = new LSX_Faq_Admin();
+		$this->frontend = new LSX_Faq_Frontend();
 	}
 }
