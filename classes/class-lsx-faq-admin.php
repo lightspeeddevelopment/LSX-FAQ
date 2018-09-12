@@ -86,8 +86,6 @@ class LSX_FAQ_Admin
 			'supports'           => array(
 				'title',
 				'editor',
-				'thumbnail',
-				'excerpt',
 				'custom-fields',
 			),
 		);
