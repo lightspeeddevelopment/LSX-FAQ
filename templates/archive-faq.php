@@ -27,7 +27,7 @@ get_header(); ?>
 
 						while ( have_posts() ) {
 							the_post();
-							include( LSX_FAQ_PATH . '/templates/content-archive-faq.php' );
+							include( LSX_FAQ_PATH . '/templates/content-faq.php' );
 						}
 					?>
 
