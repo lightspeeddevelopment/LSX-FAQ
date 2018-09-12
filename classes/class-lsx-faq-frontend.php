@@ -34,4 +34,5 @@ class LSX_FAQ_Frontend
 		}
 		return self::$instance;
 	}
+	
 }//end class

@@ -24,12 +24,15 @@ class LSX_FAQ_Admin
 	 */
 	public function __construct() {
 		if ( ! class_exists( 'CMB_Meta_Box' ) ) {
-			require_once( LSX_DOCUMENTATION_PATH . '/vendor/Custom-Meta-Boxes/custom-meta-boxes.php' );
+			require_once( LSX_FAQ_PATH . '/vendor/Custom-Meta-Boxes/custom-meta-boxes.php' );
 		}
+add_filter( 'woocommerce_product_tabs', array( $this, 'my_simple_custom_product_tab' ) );
 		add_action( 'init', array( $this, 'post_type_setup' ) );
 		add_action( 'init', array( $this, 'taxonomy_setup' ) );
 		add_action( 'init', array( $this, 'product_taxonomy_setup' ) );
+		add_action( 'init', array( $this, 'woo_new_product_tab_content' ) );
 		add_filter( 'cmb_meta_boxes', array( $this, 'field_setup' ) );
+		
 		add_action( 'cmb_save_custom', array( $this, 'post_relations' ), 3, 20 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'assets' ) );
 
@@ -46,6 +49,8 @@ class LSX_FAQ_Admin
 		}
 		return self::$instance;
 	}
+
+
 
 	/**
 	 * Register the FAQ and Product Tag post type
@@ -284,6 +289,9 @@ class LSX_FAQ_Admin
 		wp_enqueue_script( 'lsx-faq-admin', LSX_FAQ_URL . 'assets/js/lsx-faq-admin.min.js', array( 'jquery' ), LSX_FAQ_VER, true );
 		wp_enqueue_style( 'lsx-faq-admin', LSX_FAQ_URL . 'assets/css/lsx-faq-admin.css', array(), LSX_FAQ_VER );
 	}
+	
+	
+
 
 }
 //end class
