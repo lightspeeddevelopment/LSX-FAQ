@@ -25,11 +25,11 @@ if ( $terms && ! is_wp_error( $terms ) ) {
 }
 ?>
 
-<div class="col-xs-12 col-sm-6 col-md-4 lsx-faq-column <?php echo esc_attr( $doc_categories_class ); ?>">
+<div class="col-xs-12 col-sm-12 col-md-12 lsx-faq-column">
 	<article class="lsx-faq-slot">
-		<?php if ( ! empty( lsx_get_thumbnail( 'lsx-thumbnail-single' ) ) ) : ?>
+		<?php /*if ( ! empty( lsx_get_thumbnail( 'lsx-thumbnail-single' ) ) ) : ?>
 			<figure class="lsx-faq-avatar"><?php lsx_thumbnail( 'lsx-thumbnail-single' ); ?></figure>
-		<?php endif; ?>
+		<?php endif; */ ?>
 
 		<h5 class="lsx-faq-title">
 			<?php the_title(); ?>
