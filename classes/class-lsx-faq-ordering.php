@@ -29,6 +29,7 @@ class LSX_FAQ_Ordering {
 		add_action( 'admin_init', array( $this, 'refresh' ) );
 		add_action( 'admin_init', array( $this, 'load_script_css' ) );
 
+		//These are the menu order updaters
 		add_action( 'wp_ajax_update-menu-order', array(
 			$this,
 			'update_menu_order',
@@ -37,7 +38,12 @@ class LSX_FAQ_Ordering {
 			$this,
 			'update_menu_order_tags',
 		) );
+		add_action( 'save_post', array(
+			$this,
+			'update_category_ordering',
+		) );
 
+		//  These are the query statement
 		add_action( 'pre_get_posts', array(
 			$this,
 			'pre_get_posts',
@@ -397,8 +403,16 @@ class LSX_FAQ_Ordering {
 		}
 
 		if ( is_admin() ) {
-			if ( isset( $wp_query->query['post_type'] ) && ! isset( $_GET['orderby'] ) ) {
-				if ( array_key_exists( $wp_query->query['post_type'], $objects ) ) {
+			if ( isset( $wp_query->query['post_type'] ) && ! isset( $_GET['orderby'] ) && array_key_exists( $wp_query->query['post_type'], $objects ) ) {
+
+				//Check if we need to order by the FAQ category
+				if ( isset( $wp_query->query['faq-category'] ) ) {
+					$wp_query->set( 'orderby', 'meta_value_num' );
+					$wp_query->set( 'order', 'ASC' );
+					$wp_query->set( 'meta_key', 'menu_order_' . $wp_query->query['faq-category'] );
+					$wp_query->set( 'posts_per_page', -1 );
+
+				} else {
 					$wp_query->set( 'orderby', 'menu_order' );
 					$wp_query->set( 'order', 'ASC' );
 				}
@@ -517,4 +531,37 @@ class LSX_FAQ_Ordering {
 		return array( 'faq-category' => 'faq-category' );
 	}
 
+	function update_category_ordering( $post_id ) {
+
+		// If this is just a revision, don't send the email.
+		if ( wp_is_post_revision( $post_id ) )
+			return false;
+
+		//If this is not one of our designated posts.
+		$objects = $this->get_objects();
+		if ( empty( $objects ) || ! array_key_exists( get_post_type( $post_id ), $objects ) ) {
+			return false;
+		}
+
+		//If there are no taxonomies we must work with then escape.
+		$taxonomies = $this->get_tags();
+		if ( empty( $taxonomies ) ) {
+			return false;
+		} else {
+			$valid_terms = array();
+
+			$terms = wp_get_object_terms( $post_id, $taxonomies, array(
+				'fields' => 'slugs'
+			) );
+
+			if ( false !== $terms && ! empty( $terms ) ) {
+				foreach ( $terms as $slug ) {
+					$old_value = get_post_meta( $post_id, 'menu_order_' . $slug, true );
+					if ( false === $old_value || '' === $old_value) {
+						add_post_meta( $post_id, 'menu_order_' . $slug, '0', true );
+					}
+				}
+			}
+		}
+	}
 }
