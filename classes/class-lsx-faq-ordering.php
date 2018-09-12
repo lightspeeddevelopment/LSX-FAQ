@@ -66,10 +66,11 @@ class LSX_FAQ_Ordering {
 			'next_post_sort',
 		) );
 
-		add_filter( 'get_terms_orderby', array(
+		/*add_filter( 'get_terms_orderby', array(
 			$this,
 			'get_terms_orderby',
-		), 10, 3 );
+		), 10, 3 );*/
+
 		add_filter( 'wp_get_object_terms', array(
 			$this,
 			'get_object_terms',

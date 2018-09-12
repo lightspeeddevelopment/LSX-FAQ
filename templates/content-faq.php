@@ -35,16 +35,7 @@ if ( $terms && ! is_wp_error( $terms ) ) {
 			<?php the_title(); ?>
 		</h5>
 
-		<?php if ( ! empty( $doc_categories ) ) : ?>
-			<p class="lsx-faq-category"><?php echo wp_kses_post( $doc_categories ); ?></p>
-		<?php endif; ?>
-		<div class="archive-doc-cat">
-			<?php
-			$terms = get_the_terms( $post->ID, 'faq-category' );
-			foreach ( $terms as $term ) {
-				echo esc_attr( $term->name );
-			}
-		?>
-		</div>
+		<?php the_excerpt(); ?>
+
 	</article>
 </div>
