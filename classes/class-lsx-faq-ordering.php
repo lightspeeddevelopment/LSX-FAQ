@@ -419,6 +419,8 @@ class LSX_FAQ_Ordering {
 			}
 		} else {
 			$active = false;
+			$is_taxonomy = false;
+			$taxonomy_slug = '';
 
 			if ( isset( $wp_query->query['post_type'] ) ) {
 				if ( ! is_array( $wp_query->query['post_type'] ) ) {
@@ -432,6 +434,18 @@ class LSX_FAQ_Ordering {
 				}
 			}
 
+			//Check if there is a taxonomy active
+			$tags = $this->get_tags();
+			if ( ! empty( $tags ) ) {
+				foreach ( $tags as $tag ) {
+					if ( isset( $wp_query->query[ $tag ] ) ) {
+						$is_taxonomy = true;
+						$taxonomy_slug = $wp_query->query[ $tag ];
+						$active = true;
+					}
+				}
+			}
+
 			if ( ! $active ) {
 				return false;
 			}
@@ -440,17 +454,33 @@ class LSX_FAQ_Ordering {
 				return false;
 			}
 
+			//Check if its a term archive,  if so use the normal ordering.
+
 			if ( isset( $wp_query->query['suppress_filters'] ) ) {
 				if ( $wp_query->get( 'orderby' ) == 'date' ) {
-					$wp_query->set( 'orderby', 'menu_order' );
+
+					if ( false === $is_taxonomy) {
+						$wp_query->set( 'orderby', 'menu_order' );
+					} else {
+						$wp_query->set( 'meta_key', 'menu_order_' . $taxonomy_slug );
+						$wp_query->set( 'orderby', 'meta_value_num' );
+					}
 				}
+
 				if ( $wp_query->get( 'order' ) == 'DESC' ) {
 					$wp_query->set( 'order', 'ASC' );
 				}
 			} else {
 				if ( ! $wp_query->get( 'orderby' ) ) {
-					$wp_query->set( 'orderby', 'menu_order' );
+					//Check if we need to use the custom field to order.
+					if ( false === $is_taxonomy) {
+						$wp_query->set( 'orderby', 'menu_order' );
+					} else {
+						$wp_query->set( 'meta_key', 'menu_order_' . $taxonomy_slug );
+						$wp_query->set( 'orderby', 'meta_value_num' );
+					}
 				}
+
 				if ( ! $wp_query->get( 'order' ) ) {
 					$wp_query->set( 'order', 'ASC' );
 				}
@@ -531,6 +561,12 @@ class LSX_FAQ_Ordering {
 		return array( 'faq-category' => 'faq-category' );
 	}
 
+	/**
+	 * Saves a menu order if there is none
+	 * @param $post_id
+	 *
+	 * @return bool
+	 */
 	function update_category_ordering( $post_id ) {
 
 		// If this is just a revision, don't send the email.
