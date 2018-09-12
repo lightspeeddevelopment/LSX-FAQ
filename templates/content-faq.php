@@ -35,7 +35,7 @@ if ( $terms && ! is_wp_error( $terms ) ) {
 			<?php the_title(); ?>
 		</h5>
 
-		<?php the_excerpt(); ?>
+		<?php the_content(); ?>
 
 	</article>
 </div>
