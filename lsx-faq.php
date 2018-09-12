@@ -1,6 +1,6 @@
 <?php
 /*
- * Plugin Name: LSX FAQs Extension
+ * Plugin Name: LSX FAQ
  * Plugin URI:  https://www.lsdev.biz/
  * Description: Adds a FAQs post type 
  * Version:     1.0.0
