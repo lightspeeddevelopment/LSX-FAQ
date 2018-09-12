@@ -22,6 +22,11 @@ class LSX_FAQ {
 	 */
 	var $frontend = false;
 	/**
+	 * Holds the ordering class
+	 * @var array
+	 */
+	var $ordering = false;
+	/**
 	 * Holds instance of the class
 	 */
 	private static $instance;
@@ -31,6 +36,7 @@ class LSX_FAQ {
 	public function __construct() {
 		require_once( LSX_FAQ_PATH . 'classes/class-lsx-faq-admin.php' );
 		require_once( LSX_FAQ_PATH . 'classes/class-lsx-faq-frontend.php' );
+		require_once( LSX_FAQ_PATH . 'classes/class-lsx-faq-ordering.php' );
 		$this->setup();
 	}
 	/**
@@ -51,5 +57,6 @@ class LSX_FAQ {
 	public function setup() {
 		$this->admin = LSX_FAQ_Admin::init();
 		$this->frontend = LSX_FAQ_Frontend::init();
+		$this->ordering = LSX_FAQ_Ordering::init();
 	}
 }

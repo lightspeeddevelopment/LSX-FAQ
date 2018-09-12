@@ -27,7 +27,9 @@ class LSX_FAQ_Admin
 		add_action( 'init', array( $this, 'post_type_setup' ) );
 		add_action( 'init', array( $this, 'taxonomy_setup' ) );
 		add_action( 'init', array( $this, 'product_taxonomy_setup' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'assets' ) );
+
+		//add_action( 'admin_enqueue_scripts', array( $this, 'assets' ) );
+
 		add_action( 'init', array( $this, 'woo_new_product_tab_content' ) );
 
 	}
@@ -86,6 +88,7 @@ class LSX_FAQ_Admin
 				'editor',
 				'thumbnail',
 				'excerpt',
+				'custom-fields',
 			),
 		);
 
