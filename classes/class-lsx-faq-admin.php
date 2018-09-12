@@ -98,16 +98,16 @@ class LSX_FAQ_Admin
 	public function taxonomy_setup() {
 		$labels = array(
 			'name'              => esc_html_x( 'FAQ Categories', 'taxonomy general name', 'lsx-faq' ),
-			'singular_name'     => esc_html_x( 'Doc Category', 'taxonomy singular name', 'lsx-faq' ),
-			'search_items'      => esc_html__( 'Search Doc Categories', 'lsx-faq' ),
+			'singular_name'     => esc_html_x( 'FAQ Cateogry', 'taxonomy singular name', 'lsx-faq' ),
+			'search_items'      => esc_html__( 'Search FAQ', 'lsx-faq' ),
 			'all_items'         => esc_html__( 'All FAQ', 'lsx-faq' ),
 			'parent_item'       => esc_html__( 'Parent FAQ', 'lsx-faq' ),
 			'parent_item_colon' => esc_html__( 'Parent FAQ:', 'lsx-faq' ),
 			'edit_item'         => esc_html__( 'Edit FAQ', 'lsx-faq' ),
 			'update_item'       => esc_html__( 'Update FAQ', 'lsx-faq' ),
 			'add_new_item'      => esc_html__( 'Add New', 'lsx-faq' ),
-			'new_item_name'     => esc_html__( 'New FAQ Name', 'lsx-faq' ),
-			'menu_name'         => esc_html__( 'FAQ Category', 'lsx-faq' ),
+			'new_item_name'     => esc_html__( 'New FAQ', 'lsx-faq' ),
+			'menu_name'         => esc_html__( 'Category', 'lsx-faq' ),
 		);
 
 		$args = array(
