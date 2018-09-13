@@ -10,7 +10,7 @@ namespace lsx;
  * @link
  * @copyright 2016 LightSpeed
  */
-class LSX_FAQ_Admin 
+class LSX_FAQ_Admin
 {
 
 
@@ -38,8 +38,8 @@ class LSX_FAQ_Admin
 		add_action( 'init', array( $this, 'woo_new_product_tab_content' ) );
 
 		//Handles the saving of the term image
-		add_action( 'create_term', array( $this, 'save_meta' ), 10, 2 );
-		add_action( 'edit_term', array( $this, 'save_meta' ), 10, 2 );
+		add_action( 'create_term', array( $this, 'save_meta' ), 20, 2 );
+		add_action( 'edit_term', array( $this, 'save_meta' ), 20, 2 );
 
 		foreach ( array_keys( $this->taxonomies ) as $taxonomy ) {
 			add_action( "{$taxonomy}_edit_form_fields", array( $this, 'add_thumbnail_form_field' ), 3, 1 );
@@ -192,7 +192,16 @@ class LSX_FAQ_Admin
 			$image_preview = wp_get_attachment_image_src( $value, 'thumbnail' );
 
 			if ( is_array( $image_preview ) ) {
-				$image_preview = '<img src="' . $image_preview[0] . '" width="' . $image_preview[1] . '" height="' . $image_preview[2] . '" class="alignnone size-thumbnail wp-image-' . $value . '" />';
+				$width = $image_preview[1];
+				if ( '1' === $width || 1 === $width) {
+					$width = '150';
+				}
+				$height = $image_preview[2];
+				if ( '1' === $height || 1 === $height) {
+					$height = '150';
+				}
+
+				$image_preview = '<img src="' . $image_preview[0] . '" width="' . $width . '" height="' . $height . '" class="alignnone size-thumbnail wp-image-' . $value . '" />';
 			}
 		} else {
 			$image_preview = false;
