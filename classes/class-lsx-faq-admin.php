@@ -202,7 +202,7 @@ class LSX_FAQ_Admin
 		<tr class="form-field form-required term-thumbnail-wrap">
 			<th scope="row"><label for="thumbnail"><?php esc_html_e( 'Featured Image', 'tour-operator' ); ?></label></th>
 			<td>
-				<input class="input_image_id" type="hidden" name="thumbnail" value="<?php echo wp_kses_post( $value ); ?>">
+				<input class="input_image_id" type="hidden" name="faq_thumbnail" value="<?php echo wp_kses_post( $value ); ?>">
 				<div class="thumbnail-preview">
 					<?php echo wp_kses_post( $image_preview ); ?>
 				</div>
@@ -227,16 +227,16 @@ class LSX_FAQ_Admin
 			return;
 		}
 
-		if ( ! isset( $_POST['thumbnail'] ) ) {
+		if ( ! isset( $_POST['faq_thumbnail'] ) ) {
 			return;
 		}
 
 		if ( check_admin_referer( 'lsx_faq_save_term_thumbnail', 'lsx_faq_term_thumbnail_nonce' ) ) {
-			if ( ! isset( $_POST['thumbnail'] ) ) {
+			if ( ! isset( $_POST['faq_thumbnail'] ) ) {
 				return;
 			}
 
-			$thumbnail_meta = sanitize_text_field( $_POST['thumbnail'] );
+			$thumbnail_meta = sanitize_text_field( $_POST['faq_thumbnail'] );
 			$thumbnail_meta = ! empty( $thumbnail_meta ) ? $thumbnail_meta : '';
 
 			if ( empty( $thumbnail_meta ) ) {
