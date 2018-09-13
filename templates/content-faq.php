@@ -2,6 +2,7 @@
 /**
  * @package lsx-faq
  */
+global $faq_counter;
 ?>
 
 <?php
@@ -32,6 +33,7 @@ if ( $terms && ! is_wp_error( $terms ) ) {
 		<?php endif; */ ?>
 
 		<h5 class="lsx-faq-title">
+			<span class="faq-counter"><?php echo esc_attr( $faq_counter ); $faq_counter++; ?></span>
 			<?php the_title(); ?>
 		</h5>
 

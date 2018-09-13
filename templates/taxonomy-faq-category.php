@@ -4,6 +4,7 @@
  *
  * @package lsx-faq
  */
+global $faq_counter;
 
 get_header(); ?>
 
@@ -23,7 +24,7 @@ get_header(); ?>
 				<div class="row row-flex lsx-faq-row"">
 
 					<?php
-						$count = 0;
+						$faq_counter = 1;
 
 						while ( have_posts() ) {
 							the_post();
