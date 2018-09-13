@@ -20,6 +20,11 @@ class LSX_FAQ_Admin
 	private static $instance;
 
 	/**
+	 * Holds instance of the class
+	 */
+	public $taxonomies = array( 'faq-category' => 'faq-category' );
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -31,6 +36,14 @@ class LSX_FAQ_Admin
 		//add_action( 'admin_enqueue_scripts', array( $this, 'assets' ) );
 
 		add_action( 'init', array( $this, 'woo_new_product_tab_content' ) );
+
+		//Handles the saving of the term image
+		add_action( 'create_term', array( $this, 'save_meta' ), 10, 2 );
+		add_action( 'edit_term', array( $this, 'save_meta' ), 10, 2 );
+
+		foreach ( array_keys( $this->taxonomies ) as $taxonomy ) {
+			add_action( "{$taxonomy}_edit_form_fields", array( $this, 'add_thumbnail_form_field' ), 3, 1 );
+		}
 
 	}
 	/**
@@ -165,6 +178,73 @@ class LSX_FAQ_Admin
 
 		wp_enqueue_script( 'lsx-faq-admin', LSX_FAQ_URL . 'assets/js/lsx-faq-admin.min.js', array( 'jquery' ), LSX_FAQ_VER, true );
 		wp_enqueue_style( 'lsx-faq-admin', LSX_FAQ_URL . 'assets/css/lsx-faq-admin.css', array(), LSX_FAQ_VER );
+	}
+
+	//This is the featured image functions
+	/**
+	 * Output the form field for this metadata when adding a new term
+	 *
+	 * @since 0.1.0
+	 */
+	public function add_thumbnail_form_field( $term = false ) {
+		if ( is_object( $term ) ) {
+			$value         = get_term_meta( $term->term_id, 'thumbnail', true );
+			$image_preview = wp_get_attachment_image_src( $value, 'thumbnail' );
+
+			if ( is_array( $image_preview ) ) {
+				$image_preview = '<img src="' . $image_preview[0] . '" width="' . $image_preview[1] . '" height="' . $image_preview[2] . '" class="alignnone size-thumbnail wp-image-' . $value . '" />';
+			}
+		} else {
+			$image_preview = false;
+			$value         = false;
+		}
+		?>
+		<tr class="form-field form-required term-thumbnail-wrap">
+			<th scope="row"><label for="thumbnail"><?php esc_html_e( 'Featured Image', 'tour-operator' ); ?></label></th>
+			<td>
+				<input class="input_image_id" type="hidden" name="thumbnail" value="<?php echo wp_kses_post( $value ); ?>">
+				<div class="thumbnail-preview">
+					<?php echo wp_kses_post( $image_preview ); ?>
+				</div>
+				<a style="<?php if ( '' !== $value && false !== $value ) { ?>display:none;<?php } ?>" class="button-secondary lsx-thumbnail-image-add"><?php esc_html_e( 'Choose Image', 'tour-operator' ); ?></a>
+				<a style="<?php if ( '' === $value || false === $value ) { ?>display:none;<?php } ?>" class="button-secondary lsx-thumbnail-image-remove"><?php esc_html_e( 'Remove Image', 'tour-operator' ); ?></a>
+				<?php wp_nonce_field( 'lsx_faq_save_term_thumbnail', 'lsx_faq_term_thumbnail_nonce' ); ?>
+			</td>
+		</tr>
+		<?php
+	}
+
+	/**
+	 * Saves the Taxnomy term banner image
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param  int    $term_id
+	 * @param  string $taxonomy
+	 */
+	public function save_meta( $term_id = 0, $taxonomy = '' ) {
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+
+		if ( ! isset( $_POST['thumbnail'] ) ) {
+			return;
+		}
+
+		if ( check_admin_referer( 'lsx_faq_save_term_thumbnail', 'lsx_faq_term_thumbnail_nonce' ) ) {
+			if ( ! isset( $_POST['thumbnail'] ) ) {
+				return;
+			}
+
+			$thumbnail_meta = sanitize_text_field( $_POST['thumbnail'] );
+			$thumbnail_meta = ! empty( $thumbnail_meta ) ? $thumbnail_meta : '';
+
+			if ( empty( $thumbnail_meta ) ) {
+				delete_term_meta( $term_id, 'thumbnail' );
+			} else {
+				update_term_meta( $term_id, 'thumbnail', $thumbnail_meta );
+			}
+		}
 	}
 
 }
