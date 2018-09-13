@@ -37,6 +37,9 @@ class LSX_FAQ_Admin
 
 		add_action( 'init', array( $this, 'woo_new_product_tab_content' ) );
 
+		add_action( 'woocommerce_product_options_general_product_data', array( $this, 'register_wc_custom_field' ), 20 );
+		add_action( 'woocommerce_process_product_meta', array( $this, 'save_wc_custom_field' ) );
+
 		//Handles the saving of the term image
 		add_action( 'create_term', array( $this, 'save_meta' ), 20, 2 );
 		add_action( 'edit_term', array( $this, 'save_meta' ), 20, 2 );
@@ -179,6 +182,34 @@ class LSX_FAQ_Admin
 		wp_enqueue_script( 'lsx-faq-admin', LSX_FAQ_URL . 'assets/js/lsx-faq-admin.min.js', array( 'jquery' ), LSX_FAQ_VER, true );
 		wp_enqueue_style( 'lsx-faq-admin', LSX_FAQ_URL . 'assets/css/lsx-faq-admin.css', array(), LSX_FAQ_VER );
 	}
+
+	/**
+	 * Display the custom text field
+	 * @since 1.0.0
+	 */
+	function register_wc_custom_field() {
+		$args = array(
+			'id' => 'lsx_faq_posts',
+			'label' => __( 'FAQ', 'lsx-faq' ),
+			'class' => 'lsx-faq-custom-field',
+			'desc_tip' => true,
+			'description' => __( 'Select the FAQ posts related to this product', 'lsx-faq' ),
+		);
+		woocommerce_wp_text_input( $args );
+	}
+
+	/**
+	* Save the custom field
+	* @since 1.0.0
+	*/
+	function save_wc_custom_field( $post_id ) {
+		$product = wc_get_product( $post_id );
+		$title = isset( $_POST['lsx_faq_posts'] ) ? $_POST['lsx_faq_posts'] : '';
+		$product->update_meta_data( 'lsx_faq_posts', sanitize_text_field( $title ) );
+		$product->save();
+	}
+
+
 
 	//This is the featured image functions
 	/**
