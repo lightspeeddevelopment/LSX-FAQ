@@ -33,7 +33,7 @@ if ( $terms && ! is_wp_error( $terms ) ) {
 		<?php endif; */ ?>
 
 		<h5 class="lsx-faq-title">
-			<span class="faq-counter"><?php echo esc_attr( $faq_counter ); $faq_counter++; ?></span>
+			<?php if ( is_tax() ) { ?><span class="faq-counter"><?php echo esc_attr( $faq_counter ); $faq_counter++; ?>)</span><?php } ?>
 			<?php the_title(); ?>
 		</h5>
 
