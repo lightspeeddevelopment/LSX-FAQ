@@ -37,6 +37,7 @@ class LSX_FAQ {
 		require_once( LSX_FAQ_PATH . 'classes/class-lsx-faq-admin.php' );
 		require_once( LSX_FAQ_PATH . 'classes/class-lsx-faq-frontend.php' );
 		require_once( LSX_FAQ_PATH . 'classes/class-lsx-faq-ordering.php' );
+		require_once( LSX_FAQ_PATH . 'includes/template-tags.php' );
 		$this->setup();
 	}
 	/**

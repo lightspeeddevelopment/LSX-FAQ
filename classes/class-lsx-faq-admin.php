@@ -188,14 +188,36 @@ class LSX_FAQ_Admin
 	 * @since 1.0.0
 	 */
 	function register_wc_custom_field() {
+
+		$faq_posts = new \WP_Query(
+			array(
+				'post_type' => 'faq',
+				'post_status' => 'publish',
+				'posts_per_page' => -1,
+				'nopagin' => true,
+			)
+		);
+		$options = array();
+		if ( $faq_posts->have_posts() ) {
+			foreach ( $faq_posts->posts as $faq_post ) {
+				$options[ $faq_post->ID ] = $faq_post->post_title;
+			}
+		} else {
+			$options[ 0 ] = __( 'Please add FAQ posts', 'lsx-faq' );
+		}
+
 		$args = array(
 			'id' => 'lsx_faq_posts',
+			'name' => 'lsx_faq_posts[]',
 			'label' => __( 'FAQ', 'lsx-faq' ),
 			'class' => 'lsx-faq-custom-field',
 			'desc_tip' => true,
 			'description' => __( 'Select the FAQ posts related to this product', 'lsx-faq' ),
+			'options' => $options
 		);
-		woocommerce_wp_text_input( $args );
+		//woocommerce_wp_text_input( $args );
+
+		woocommerce_wp_select_multiple( $args );
 	}
 
 	/**
@@ -205,11 +227,9 @@ class LSX_FAQ_Admin
 	function save_wc_custom_field( $post_id ) {
 		$product = wc_get_product( $post_id );
 		$title = isset( $_POST['lsx_faq_posts'] ) ? $_POST['lsx_faq_posts'] : '';
-		$product->update_meta_data( 'lsx_faq_posts', sanitize_text_field( $title ) );
+		$product->update_meta_data( 'lsx_faq_posts', $title );
 		$product->save();
 	}
-
-
 
 	//This is the featured image functions
 	/**
