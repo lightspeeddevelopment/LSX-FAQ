@@ -146,17 +146,17 @@ class LSX_FAQ_Admin
 	 */
 	public function product_taxonomy_setup() {
 		$labels = array(
-			'name'              => esc_html_x( 'Product Tags', 'taxonomy general name', 'lsx-faq' ),
-			'singular_name'     => esc_html_x( 'Product Tag', 'taxonomy singular name', 'lsx-faq' ),
-			'search_items'      => esc_html__( 'Search Product Tags', 'lsx-faq' ),
-			'all_items'         => esc_html__( 'All Product Tags', 'lsx-faq' ),
-			'parent_item'       => esc_html__( 'Parent Product Tags', 'lsx-faq' ),
-			'parent_item_colon' => esc_html__( 'Parent Product Tags:', 'lsx-faq' ),
+			'name'              => esc_html_x( 'Tags', 'taxonomy general name', 'lsx-faq' ),
+			'singular_name'     => esc_html_x( 'Tag', 'taxonomy singular name', 'lsx-faq' ),
+			'search_items'      => esc_html__( 'Search Tags', 'lsx-faq' ),
+			'all_items'         => esc_html__( 'All Tags', 'lsx-faq' ),
+			'parent_item'       => esc_html__( 'Parent Tag', 'lsx-faq' ),
+			'parent_item_colon' => esc_html__( 'Parent Tag:', 'lsx-faq' ),
 			'edit_item'         => esc_html__( 'Edit FAQ', 'lsx-faq' ),
-			'update_item'       => esc_html__( 'Update Product Tags', 'lsx-faq' ),
+			'update_item'       => esc_html__( 'Update Tag', 'lsx-faq' ),
 			'add_new_item'      => esc_html__( 'Add New', 'lsx-faq' ),
-			'new_item_name'     => esc_html__( 'New Product Tag Name', 'lsx-faq' ),
-			'menu_name'         => esc_html__( 'Product Tags', 'lsx-faq' ),
+			'new_item_name'     => esc_html__( 'New Tag Name', 'lsx-faq' ),
+			'menu_name'         => esc_html__( 'Tags', 'lsx-faq' ),
 		);
 
 		$args = array(
@@ -170,7 +170,7 @@ class LSX_FAQ_Admin
 			),
 		);
 
-		register_taxonomy( 'product-tags', array( 'faq' ), $args );
+		register_taxonomy( 'faq-tags', array( 'faq' ), $args );
 	}
 
 	public function assets() {
