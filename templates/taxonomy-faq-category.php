@@ -10,6 +10,17 @@ get_header(); ?>
 
 <?php lsx_content_wrap_before(); ?>
 
+<div id="secondary" class="col-md-4 widget-area">
+	<h3><?php _e( 'Search' ); ?></h3>
+	<?php echo do_shortcode( '[facetwp facet="faq_search"]' ); ?>
+
+	<h3><?php _e( 'Categories' ); ?></h3>
+	<?php echo do_shortcode( '[facetwp facet="faq_category"]' ); ?>
+
+	<h3><?php _e( 'Tags' ); ?></h3>
+	<?php echo do_shortcode( '[facetwp facet="faq_tags"]' ); ?>
+</div>
+
 <div id="primary" class="content-area col-md-8">
 
 	<?php lsx_content_before(); ?>
@@ -52,11 +63,5 @@ get_header(); ?>
 </div><!-- #primary -->
 
 <?php lsx_content_wrap_after(); ?>
-
-<div id="secondary" class="col-md-4 widget-area">
-	<?php echo do_shortcode( '[facetwp facet="faq_search"]' ); ?>
-	<?php echo do_shortcode( '[facetwp facet="faq_category"]' ); ?>
-	<?php echo do_shortcode( '[facetwp facet="faq_tags"]' ); ?>
-</div>
 
 <?php get_footer();
