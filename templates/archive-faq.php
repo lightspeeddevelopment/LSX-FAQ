@@ -22,6 +22,8 @@ get_header(); ?>
 			<div class="lsx-faq-container">
 				<div class="row row-flex lsx-faq-row"">
 
+					<?php do_action( 'lsx-faq-content-before' ); ?>
+
 					<?php
 						$count = 0;
 
@@ -30,6 +32,8 @@ get_header(); ?>
 							include( LSX_FAQ_PATH . '/templates/content-faq.php' );
 						}
 					?>
+
+					<?php do_action( 'lsx-faq-content-after' ); ?>
 
 				</div>
 			</div>

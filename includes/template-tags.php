@@ -10,7 +10,7 @@
  */
 
 /**
- *
+ *  Outputs a multiselect Field for the WooCommerce product tab
  * @param $field
  */
 function woocommerce_wp_select_multiple( $field ) {
@@ -43,4 +43,38 @@ function woocommerce_wp_select_multiple( $field ) {
     	console.log('." . $field['id'] . "_field');
 	    $('." . $field['id'] . "_field select').select2();
 	});</script>";
+}
+
+/**
+ * Outputs the LSX FAQ search form
+ * @param array $args
+ */
+function lsx_faq_search( $args = array() ) {
+	$defaults = array(
+		'class' => '',
+		'action' => get_post_type_archive_link( 'faq' ),
+		'placeholder' => '',
+		'facet_name' => 'faq_search',
+		'button_text' => __( 'Search', 'lsx-faq' ),
+		'column_class' => 'col-md-12',
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+	?>
+	<div class="<?php echo esc_attr( $args['class'] ); ?>">
+		<?php do_action( 'lsx-faq-search-form-before' ); ?>
+		<form class="search-form lsx-faq-search-form <?php echo esc_attr( $args['class'] ); ?> " action="<?php echo esc_attr( $args['action'] ); ?>" method="get">
+			<?php do_action( 'lsx-faq-search-form-top' ); ?>
+			<div class="input-group">
+				<div class="field">
+					<input class="search-field form-control" name="<?php echo esc_attr( $args['facet_name'] ); ?>" type="search" placeholder="<?php echo esc_attr( $args['placeholder'] ); ?>" autocomplete="off"></div>
+				<div class="field submit-button">
+					<button class="btn cta-btn " type="submit"><?php echo esc_attr( $args['button_text'] ); ?></button>
+				</div>
+			</div>
+			<?php do_action( 'lsx-faq-search-form-bottom' ); ?>
+		</form>
+		<?php do_action( 'lsx-faq-search-form-after' ); ?>
+	</div>
+	<?php
 }

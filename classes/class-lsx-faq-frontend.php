@@ -27,6 +27,8 @@ class LSX_FAQ_Frontend
 		add_action( 'template_redirect', array( $this, 'disable_single_templates' ) );
 
 		add_filter( 'woocommerce_product_tabs', array( $this, 'register_product_tab' ), 20, 1 );
+
+		add_action( 'lsx-faq-content-before', array( $this, 'archive_search_form' ) );
 	}
 	/**
 	 * Return an instance of this class.
@@ -134,5 +136,9 @@ class LSX_FAQ_Frontend
 				echo wp_kses_post( '<article><p>' . __( 'There are no FAQ posts assigned', 'lsx-faq' ) . '</p></article>');
 			}
 		}
+	}
+
+	public function archive_search_form( ) {
+		lsx_faq_search( );
 	}
 }//end class
