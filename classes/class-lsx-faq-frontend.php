@@ -144,7 +144,7 @@ class LSX_FAQ_Frontend
 	 * Adds the search form to the top of the archive.
 	 */
 	public function archive_search_form( ) {
-		if ( ! isset( $_GET['fwp_faq_tags'] ) && ! isset( $_GET['fwp_faq_category'] ) && ! isset( $_GET['fwp_faq_search'] )  ) {
+		if ( ! isset( $_GET['fwp_faq_tags'] ) && ! isset( $_GET['fwp_faq_category'] ) && ! isset( $_GET['faq_search'] )  ) {
 			lsx_faq_search();
 		}
 	}
