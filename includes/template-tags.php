@@ -54,7 +54,7 @@ function lsx_faq_search( $args = array() ) {
 		'class' => '',
 		'action' => get_post_type_archive_link( 'faq' ),
 		'placeholder' => '',
-		'facet_name' => 'faq_search',
+		'facet_name' => 'fwp_faq_search',
 		'button_text' => __( 'Search', 'lsx-faq' ),
 		'column_class' => 'col-md-12',
 	);
