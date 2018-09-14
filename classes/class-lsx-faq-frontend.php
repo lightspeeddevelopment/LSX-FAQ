@@ -99,6 +99,8 @@ class LSX_FAQ_Frontend
 
 	/**
 	 * Function that displays output for the shipping tab.
+	 *
+	 * TODO This needs to become a template tag
 	 */
 	function product_tab_content( $slug, $tab ) {
 		global $faq_counter;
@@ -138,7 +140,12 @@ class LSX_FAQ_Frontend
 		}
 	}
 
+	/**
+	 * Adds the search form to the top of the archive.
+	 */
 	public function archive_search_form( ) {
-		lsx_faq_search( );
+		if ( ! isset( $_GET['fwp_faq_tags'] ) && ! isset( $_GET['fwp_faq_category'] ) && ! isset( $_GET['fwp_faq_search'] )  ) {
+			lsx_faq_search();
+		}
 	}
 }//end class

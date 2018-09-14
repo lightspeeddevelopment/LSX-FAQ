@@ -9,7 +9,36 @@ get_header(); ?>
 
 <?php lsx_content_wrap_before(); ?>
 
-<div id="primary" class="content-area <?php echo esc_attr( lsx_main_class() ); ?>">
+<?php
+	$main_class = 'col-sm-12';
+ ?>
+
+<?php if ( ! empty( $_GET ) ) { ?>
+	<div id="secondary" class="col-md-4 widget-area">
+		<div class="widget">
+			<h3><?php _e( 'Search' ); ?></h3>
+			<?php echo do_shortcode( '[facetwp facet="faq_search"]' ); ?>
+		</div>
+
+		<?php if ( ! is_tax() ) { ?>
+			<div class="widget">
+				<h3><?php _e( 'Categories' ); ?></h3>
+				<?php echo do_shortcode( '[facetwp facet="faq_category"]' ); ?>
+			</div>
+		<?php } ?>
+
+		<div class="widget">
+			<h3><?php _e( 'Tags' ); ?></h3>
+			<?php echo do_shortcode( '[facetwp facet="faq_tags"]' ); ?>
+		</div>
+	</div>
+<?php
+	//Set the class to accommodate the column
+	$main_class = 'col-sm-8';
+	}
+?>
+
+<div id="primary" class="content-area <?php echo esc_attr( $main_class ); ?>">
 
 	<?php lsx_content_before(); ?>
 
