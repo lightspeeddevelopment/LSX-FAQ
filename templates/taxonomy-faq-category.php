@@ -10,7 +10,7 @@ get_header(); ?>
 
 <?php lsx_content_wrap_before(); ?>
 
-<div id="primary" class="content-area <?php echo esc_attr( lsx_main_class() ); ?>">
+<div id="primary" class="content-area col-md-8">
 
 	<?php lsx_content_before(); ?>
 
@@ -53,6 +53,10 @@ get_header(); ?>
 
 <?php lsx_content_wrap_after(); ?>
 
-<?php get_sidebar(); ?>
+<div id="secondary" class="col-md-4">
+	<?php echo do_shortcode( '[facetwp facet="faq_search"]' ); ?>
+	<?php echo do_shortcode( '[facetwp facet="faq_category"]' ); ?>
+	<?php echo do_shortcode( '[facetwp facet="faq_tags"]' ); ?>
+</div>
 
 <?php get_footer();
