@@ -11,14 +11,20 @@ get_header(); ?>
 <?php lsx_content_wrap_before(); ?>
 
 <div id="secondary" class="col-md-4 widget-area">
-	<h3><?php _e( 'Search' ); ?></h3>
-	<?php echo do_shortcode( '[facetwp facet="faq_search"]' ); ?>
+	<div class="widget">
+		<h3><?php _e( 'Search' ); ?></h3>
+		<?php echo do_shortcode( '[facetwp facet="faq_search"]' ); ?>
+	</div>
 
-	<h3><?php _e( 'Categories' ); ?></h3>
-	<?php echo do_shortcode( '[facetwp facet="faq_category"]' ); ?>
+	<div class="widget">
+		<h3><?php _e( 'Categories' ); ?></h3>
+		<?php echo do_shortcode( '[facetwp facet="faq_category"]' ); ?>
+	</div>
 
-	<h3><?php _e( 'Tags' ); ?></h3>
-	<?php echo do_shortcode( '[facetwp facet="faq_tags"]' ); ?>
+	<div class="widget">
+		<h3><?php _e( 'Tags' ); ?></h3>
+		<?php echo do_shortcode( '[facetwp facet="faq_tags"]' ); ?>
+	</div>
 </div>
 
 <div id="primary" class="content-area col-md-8">
