@@ -16,10 +16,12 @@ get_header(); ?>
 		<?php echo do_shortcode( '[facetwp facet="faq_search"]' ); ?>
 	</div>
 
-	<div class="widget">
-		<h3><?php _e( 'Categories' ); ?></h3>
-		<?php echo do_shortcode( '[facetwp facet="faq_category"]' ); ?>
-	</div>
+	<?php if ( ! is_tax() ) { ?>
+		<div class="widget">
+			<h3><?php _e( 'Categories' ); ?></h3>
+			<?php echo do_shortcode( '[facetwp facet="faq_category"]' ); ?>
+		</div>
+	<?php } ?>
 
 	<div class="widget">
 		<h3><?php _e( 'Tags' ); ?></h3>

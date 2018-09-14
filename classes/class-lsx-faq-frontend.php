@@ -21,11 +21,12 @@ class LSX_FAQ_Frontend
 	 * Constructor.
 	 */
 	public function __construct() {
-
 		// Redirect the Archive template and the category template
 		add_filter( 'template_include', array( $this, 'archive_template_include' ), 99 );
 		add_filter( 'template_include', array( $this, 'taxonomy_template_include' ), 99 );
 		add_action( 'template_redirect', array( $this, 'disable_single_templates' ) );
+
+		add_filter( 'woocommerce_product_tabs', array( $this, 'register_product_tab' ), 20, 1 );
 	}
 	/**
 	 * Return an instance of this class.
@@ -79,4 +80,59 @@ class LSX_FAQ_Frontend
 		}
 	}
 
+	/**
+	 * Add the custom tab
+	 */
+	public function register_product_tab( $tabs ) {
+		$faq_posts = get_post_meta( get_the_ID(), 'lsx_faq_posts', true );
+		if ( false !== $faq_posts && '' !== $faq_posts ) {
+			$tabs['faq'] = array(
+				'title'    => __( 'FAQ', 'lsx-faq' ),
+				'callback' => array( $this, 'product_tab_content' ),
+				'priority' => 50,
+			);
+		}
+		return $tabs;
+	}
+
+	/**
+	 * Function that displays output for the shipping tab.
+	 */
+	function product_tab_content( $slug, $tab ) {
+		global $faq_counter;
+		$faq_posts = get_post_meta( get_the_ID(), 'lsx_faq_posts', true );
+
+		if ( false !== $faq_posts && '' !== $faq_posts ) {
+
+			if ( ! is_array( $faq_posts ) ) {
+				$faq_posts = explode( ',', $faq_posts );
+			}
+
+			if ( ! empty( $faq_posts ) ) {
+
+				$faq_query = new \WP_Query(
+					array(
+						'post__in' => $faq_posts,
+						'posts_per_page' => -1,
+						'post_type' => 'faq',
+						'post_status' => 'publish',
+					)
+				);
+
+				if ( $faq_query->have_posts() ) {
+					$faq_counter = 1;
+					while ( $faq_query->have_posts() ) {
+						$faq_query->the_post();
+						include( LSX_FAQ_PATH . '/templates/content-faq.php' );
+					}
+				}
+
+				wp_reset_query();
+				wp_reset_postdata();
+
+			} else {
+				echo wp_kses_post( '<article><p>' . __( 'There are no FAQ posts assigned', 'lsx-faq' ) . '</p></article>');
+			}
+		}
+	}
 }//end class

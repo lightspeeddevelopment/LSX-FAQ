@@ -28,15 +28,9 @@ class LSX_FAQ_Admin
 	 * Constructor.
 	 */
 	public function __construct() {
-		add_filter( 'woocommerce_product_tabs', array( $this, 'my_simple_custom_product_tab' ) );
 		add_action( 'init', array( $this, 'post_type_setup' ) );
 		add_action( 'init', array( $this, 'taxonomy_setup' ) );
 		add_action( 'init', array( $this, 'product_taxonomy_setup' ) );
-
-		//add_action( 'admin_enqueue_scripts', array( $this, 'assets' ) );
-
-		add_action( 'init', array( $this, 'woo_new_product_tab_content' ) );
-
 		add_action( 'woocommerce_product_options_general_product_data', array( $this, 'register_wc_custom_field' ), 20 );
 		add_action( 'woocommerce_process_product_meta', array( $this, 'save_wc_custom_field' ) );
 
@@ -61,8 +55,6 @@ class LSX_FAQ_Admin
 		}
 		return self::$instance;
 	}
-
-
 
 	/**
 	 * Register the FAQ and Product Tag post type
@@ -306,6 +298,8 @@ class LSX_FAQ_Admin
 			}
 		}
 	}
+
+
 
 }
 //end class
