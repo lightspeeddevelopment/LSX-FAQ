@@ -53,7 +53,7 @@ get_header(); ?>
 
 <?php lsx_content_wrap_after(); ?>
 
-<div id="secondary" class="col-md-4">
+<div id="secondary" class="col-md-4 widget-area">
 	<?php echo do_shortcode( '[facetwp facet="faq_search"]' ); ?>
 	<?php echo do_shortcode( '[facetwp facet="faq_category"]' ); ?>
 	<?php echo do_shortcode( '[facetwp facet="faq_tags"]' ); ?>
