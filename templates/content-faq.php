@@ -26,18 +26,9 @@ if ( $terms && ! is_wp_error( $terms ) ) {
 }
 ?>
 
-<div class="col-xs-12 col-sm-12 col-md-12 lsx-faq-column">
-	<article class="lsx-faq-slot">
-		<?php /*if ( ! empty( lsx_get_thumbnail( 'lsx-thumbnail-single' ) ) ) : ?>
-			<figure class="lsx-faq-avatar"><?php lsx_thumbnail( 'lsx-thumbnail-single' ); ?></figure>
-		<?php endif; */ ?>
-
-		<h5 class="lsx-faq-title">
+	<li><h3 class="question">
 			<?php if ( is_tax() || is_single() ) { ?><span class="faq-counter"><?php echo esc_attr( $faq_counter ); $faq_counter++; ?>)</span><?php } ?>
-			<?php the_title(); ?>
-		</h5>
+	<?php the_title(); ?><div class="plus-minus-toggle collapsed"></div></h3>
 
-		<?php the_content(); ?>
 
-	</article>
-</div>
+	<div class="answer"><?php the_content(); ?></div></li>

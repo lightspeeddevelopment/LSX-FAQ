@@ -39,9 +39,8 @@ get_header(); ?>
 
 		<?php if ( have_posts() ) : ?>
 
-			<div class="lsx-faq-container">
-				<div class="row row-flex lsx-faq-row"">
-
+		<div class="parent-container-faq">
+  <ul class="faq"> 
 					<?php
 						$faq_counter = 1;
 
@@ -50,9 +49,9 @@ get_header(); ?>
 							include( LSX_FAQ_PATH . '/templates/content-faq.php' );
 						}
 					?>
-
+</ul>
 				</div>
-			</div>
+			
 
 			<?php lsx_paging_nav(); ?>
 
@@ -73,3 +72,4 @@ get_header(); ?>
 <?php lsx_content_wrap_after(); ?>
 
 <?php get_footer();
+
