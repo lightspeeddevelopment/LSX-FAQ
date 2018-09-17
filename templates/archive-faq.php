@@ -65,18 +65,48 @@ get_header(); ?>
 					if ( 1 === $count ) {
 						$output .= "<div class='row row-flex'>";
 					}
+
+					// Get all the FAQ post ids attached to this term
+					$current_terms_posts = new WP_Query(
+						array(
+							'post_type' => 'faq',
+							'post_status' => 'publish',
+							'nopagin' => true,
+							'faq-category' => $term->slug,
+							'fields' => 'ids',
+						)
+					);
+
+					//Set our defaults
+					$number_of_questions = 0;
+					$all_faq_tags = array();
+
+					//if our query has info, then use it
+					if ( $current_terms_posts->have_posts() ) {
+						foreach ( $current_terms_posts->posts as $faq_post ) {
+							//Increment the number of faq posts.
+							$number_of_questions++;
+
+							$faq_tags = get_the_term_list( $faq_post, 'faq-tags' );
+							if ( ! is_wp_error( $faq_tags ) && false !== $faq_tags && '' !== $faq_tags ) {
+								$all_faq_tags[] = $faq_tags;
+							}
+						}
+					}
 					?>
 
 					<div class="col-xs-12 col-sm-6 col-md-4 lsx-documentation-column">
 						<article class="lsx-documentation-slot">
 							<h5 class="lsx-documentation-title">
-								<a href="/faq-category/<?php echo esc_url( $term->slug ); ?>"><?php echo esc_attr( $term->name ); ?></a>
+								<a href="<?php echo get_term_link( $term ); ?>"><?php echo esc_attr( $term->name ); ?> - (<?php echo wp_kses_post( $number_of_questions ); ?>)</a>
 							</h5>
-							<div class="lsx-documentation-content">
-								<a href="/faq-category/<?php echo esc_url( $term->slug ); ?>" class="moretag"><?php esc_html_e( 'View Documentation' ); ?></a>
-							</div>
 							<div class="lsx-documentation-tags">
-								<?php echo get_the_term_list( get_the_ID(), 'faq-tags' ); ?>
+								<?php if ( ! empty( $faq_tags ) ) {
+									echo wp_kses_post( implode( ',', $all_faq_tags ) );
+								}?>
+							</div>
+							<div class="lsx-documentation-content">
+								<a href="<?php echo get_term_link( $term ); ?>" class="moretag"><?php esc_html_e( 'View Documentation' ); ?></a>
 							</div>
 						</article>
 					</div>
