@@ -137,7 +137,7 @@ get_header(); ?>
 							</h5>
 							<div class="lsx-documentation-tags">
 								<?php if ( ! empty( $faq_tags ) ) {
-									echo wp_kses_post( implode( ',', $all_faq_tags ) );
+									echo wp_kses_post( implode( ', ', $all_faq_tags ) );
 								}?>
 							</div>
 							<div class="lsx-documentation-content">
