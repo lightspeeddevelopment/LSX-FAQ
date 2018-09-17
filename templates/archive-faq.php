@@ -57,42 +57,42 @@ get_header(); ?>
 		<?php do_action( 'lsx-faq-content-before' ); ?>
 
 			<div class="lsx-documentation-container">
-			<div class="row row-flex">
 
-<?php
-$count = 1;
-$post_count = count( $faq_categories );
-foreach ( $faq_categories as $term ) {
-    if ( 1 === $count ) {
-        $output .= "<div class='row'>";
-    }    
-    ?>
-    
-    <div class="col-xs-12 col-sm-6 col-md-4 lsx-documentation-column">
-        <article class="lsx-documentation-slot">
-            <h5 class="lsx-documentation-title">
-                <a href="/faq-category/<?php echo esc_url( $term->slug ); ?>"><?php echo esc_attr( $term->name ); ?></a>
-            </h5>
-            <div class="lsx-documentation-content">
-                <a href="/faq-category/<?php echo esc_url( $term->slug ); ?>" class="moretag"><?php esc_html_e( 'View Documentation' ); ?></a>
-            </div>
-        </article>
-    </div>
+				<?php
+				$count = 1;
+				$post_count = count( $faq_categories );
+				foreach ( $faq_categories as $term ) {
+					if ( 1 === $count ) {
+						$output .= "<div class='row row-flex'>";
+					}
+					?>
 
-    <?php
-    if ( 0 === $count % 3 || $count === $post_count ) {
-       echo '</div>';
-        if ( $count < $post_count ) {
-            echo "<div class='row'>";
-        }
-    }
-    $count++;
-}
-?>
+					<div class="col-xs-12 col-sm-6 col-md-4 lsx-documentation-column">
+						<article class="lsx-documentation-slot">
+							<h5 class="lsx-documentation-title">
+								<a href="/faq-category/<?php echo esc_url( $term->slug ); ?>"><?php echo esc_attr( $term->name ); ?></a>
+							</h5>
+							<div class="lsx-documentation-content">
+								<a href="/faq-category/<?php echo esc_url( $term->slug ); ?>" class="moretag"><?php esc_html_e( 'View Documentation' ); ?></a>
+							</div>
+							<div class="lsx-documentation-tags">
+								<?php echo get_the_term_list( get_the_ID(), 'faq-tags' ); ?>
+							</div>
+						</article>
+					</div>
 
-					<?php do_action( 'lsx-faq-content-after' ); ?>
+					<?php
+					if ( 0 === $count % 3 || $count === $post_count ) {
+					   echo '</div>';
+						if ( $count < $post_count ) {
+							echo "<div class='row row-flex'>";
+						}
+					}
+					$count++;
+				}
+				?>
+				<?php do_action( 'lsx-faq-content-after' ); ?>
 
-				</div>
 			</div>
 
 			<?php lsx_paging_nav(); ?>
