@@ -158,7 +158,7 @@ class LSX_FAQ_Admin
 			'show_admin_column' => true,
 			'query_var'         => true,
 			'rewrite'           => array(
-				'slug' => 'product-tags',
+				'slug' => 'faq-tags',
 			),
 		);
 
