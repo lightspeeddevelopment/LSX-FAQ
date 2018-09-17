@@ -87,9 +87,16 @@ get_header(); ?>
 							//Increment the number of faq posts.
 							$number_of_questions++;
 
-							$faq_tags = get_the_term_list( $faq_post, 'faq-tags' );
+
+							$faq_tags = get_the_terms( $faq_post, 'faq-tags' );
 							if ( ! is_wp_error( $faq_tags ) && false !== $faq_tags && '' !== $faq_tags ) {
-								$all_faq_tags[] = $faq_tags;
+								foreach ( $faq_tags as $faq_tag ) {
+
+									$link = get_term_link( $faq_tag, 'faq-tags' );
+									if ( ! is_wp_error( $link ) && ! isset( $all_faq_tags[ $faq_tag->slug ] ) ) {
+										$all_faq_tags[ $faq_tag->slug ] = '<a href="' . esc_url( $link ) . '" rel="tag">' . $faq_tag->name . '</a>';
+									}
+								}
 							}
 						}
 					}
@@ -97,16 +104,16 @@ get_header(); ?>
 					//Check if we have an image
 					$thumbnail = false;
 					$value         = get_term_meta( $term->term_id, 'thumbnail', true );
-					$image_preview = wp_get_attachment_image_src( $value, 'lsx-thumbnail-wide' );
+					$image_preview = wp_get_attachment_image_src( $value, 'thumbnail' );
 
 					if ( is_array( $image_preview ) ) {
 						$width = $image_preview[1];
 						if ( '1' === $width || 1 === $width) {
-							$width = '350';
+							$width = '150';
 						}
 						$height = $image_preview[2];
 						if ( '1' === $height || 1 === $height) {
-							$height = '230';
+							$height = '150';
 						}
 
 						$thumbnail = '<img src="' . $image_preview[0] . '" width="' . $width . '" height="' . $height . '" class="alignnone size-thumbnail wp-image-' . $value . '" />';
