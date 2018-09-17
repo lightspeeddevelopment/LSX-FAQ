@@ -11,6 +11,14 @@ get_header(); ?>
 
 <?php
 	$main_class = 'col-sm-12';
+
+            $args = array(
+                'taxonomy'   => 'faq-category',
+                'hide_empty' => false,
+            );
+
+            $faq_categories = get_terms( $args );
+
  ?>
 
 <?php if ( ! empty( $_GET ) ) { ?>
@@ -42,25 +50,45 @@ get_header(); ?>
 
 	<?php lsx_content_before(); ?>
 
-	<main id="main" class="site-main">
+	<main id="main" class="site-main lsx-faq-main">
 
 		<?php lsx_content_top(); ?>
 
-		<?php if ( have_posts() ) : ?>
+		<?php do_action( 'lsx-faq-content-before' ); ?>
 
-			<div class="lsx-faq-container">
-				<div class="row row-flex lsx-faq-row"">
+			<div class="lsx-documentation-container">
+			<div class="row row-flex">
 
-					<?php do_action( 'lsx-faq-content-before' ); ?>
+<?php
+$count = 1;
+$post_count = count( $faq_categories );
+foreach ( $faq_categories as $term ) {
+    if ( 1 === $count ) {
+        $output .= "<div class='row'>";
+    }    
+    ?>
+    
+    <div class="col-xs-12 col-sm-6 col-md-4 lsx-documentation-column">
+        <article class="lsx-documentation-slot">
+            <h5 class="lsx-documentation-title">
+                <a href="/faq-category/<?php echo esc_url( $term->slug ); ?>"><?php echo esc_attr( $term->name ); ?></a>
+            </h5>
+            <div class="lsx-documentation-content">
+                <a href="/faq-category/<?php echo esc_url( $term->slug ); ?>" class="moretag"><?php esc_html_e( 'View Documentation' ); ?></a>
+            </div>
+        </article>
+    </div>
 
-					<?php
-						$count = 0;
-
-						while ( have_posts() ) {
-							the_post();
-							include( LSX_FAQ_PATH . '/templates/content-faq.php' );
-						}
-					?>
+    <?php
+    if ( 0 === $count % 3 || $count === $post_count ) {
+       echo '</div>';
+        if ( $count < $post_count ) {
+            echo "<div class='row'>";
+        }
+    }
+    $count++;
+}
+?>
 
 					<?php do_action( 'lsx-faq-content-after' ); ?>
 
@@ -68,12 +96,6 @@ get_header(); ?>
 			</div>
 
 			<?php lsx_paging_nav(); ?>
-
-		<?php else : ?>
-
-			<?php get_template_part( 'partials/content', 'none' ); ?>
-
-		<?php endif; ?>
 
 		<?php lsx_content_bottom(); ?>
 
