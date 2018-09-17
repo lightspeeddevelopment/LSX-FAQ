@@ -62,9 +62,6 @@ get_header(); ?>
 				$count = 1;
 				$post_count = count( $faq_categories );
 				foreach ( $faq_categories as $term ) {
-					if ( 1 === $count ) {
-						$output .= "<div class='row row-flex'>";
-					}
 
 					// Get all the FAQ post ids attached to this term
 					$current_terms_posts = new WP_Query(
@@ -117,6 +114,11 @@ get_header(); ?>
 						}
 
 						$thumbnail = '<img src="' . $image_preview[0] . '" width="' . $width . '" height="' . $height . '" class="alignnone size-thumbnail wp-image-' . $value . '" />';
+					}
+
+					//If its the first item in the array, then output a div
+					if ( 1 === $count ) {
+						echo "<div class='row row-flex'>";
 					}
 					?>
 
