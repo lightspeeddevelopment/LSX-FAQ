@@ -93,10 +93,36 @@ get_header(); ?>
 							}
 						}
 					}
+
+					//Check if we have an image
+					$thumbnail = false;
+					$value         = get_term_meta( $term->term_id, 'thumbnail', true );
+					$image_preview = wp_get_attachment_image_src( $value, 'lsx-thumbnail-wide' );
+
+					if ( is_array( $image_preview ) ) {
+						$width = $image_preview[1];
+						if ( '1' === $width || 1 === $width) {
+							$width = '350';
+						}
+						$height = $image_preview[2];
+						if ( '1' === $height || 1 === $height) {
+							$height = '230';
+						}
+
+						$thumbnail = '<img src="' . $image_preview[0] . '" width="' . $width . '" height="' . $height . '" class="alignnone size-thumbnail wp-image-' . $value . '" />';
+					}
 					?>
 
 					<div class="col-xs-12 col-sm-6 col-md-4 lsx-documentation-column">
 						<article class="lsx-documentation-slot">
+							<figure class="lsx-documentation-avatar">
+								<?php
+									if ( false !== $thumbnail ) {
+										echo wp_kses_post( $thumbnail );
+									}
+								?>
+							</figure>
+
 							<h5 class="lsx-documentation-title">
 								<a href="<?php echo get_term_link( $term ); ?>"><?php echo esc_attr( $term->name ); ?> - (<?php echo wp_kses_post( $number_of_questions ); ?>)</a>
 							</h5>
