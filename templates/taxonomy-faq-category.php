@@ -38,10 +38,13 @@ get_header(); ?>
 		<?php lsx_content_top(); ?>
 
 		<?php if ( have_posts() ) : ?>
-<div class="entry-content"><h3><strong>CLICK ON THE FAQ’S BELOW TO VIEW THE ANSWERS:</strong></h3>
-</div>
-		<div class="parent-container-faq">
-  <ul class="faq"> 
+
+			<div class="entry-content">
+				<h3><strong>CLICK ON THE FAQ’S BELOW TO VIEW THE ANSWERS:</strong></h3>
+			</div>
+
+			<div class="parent-container-faq">
+				<ul class="faq">
 					<?php
 						$faq_counter = 1;
 
@@ -50,9 +53,8 @@ get_header(); ?>
 							include( LSX_FAQ_PATH . '/templates/content-faq.php' );
 						}
 					?>
-</ul>
-				</div>
-			
+				</ul>
+			</div>
 
 			<?php lsx_paging_nav(); ?>
 

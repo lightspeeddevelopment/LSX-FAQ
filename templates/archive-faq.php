@@ -12,14 +12,14 @@ get_header(); ?>
 <?php
 	$main_class = 'col-sm-12';
 
-            $args = array(
-                'taxonomy'   => 'faq-category',
-                'hide_empty' => false,
-            );
+	$args = array(
+		'taxonomy'   => 'faq-category',
+		'hide_empty' => false,
+	);
 
-            $faq_categories = get_terms( $args );
+	$faq_categories = get_terms( $args );
 
- ?>
+?>
 
 <?php if ( ! empty( $_GET ) ) { ?>
 	<div id="secondary" class="col-md-4 widget-area">
@@ -54,39 +54,43 @@ get_header(); ?>
 
 		<?php lsx_content_top(); ?>
 
-	<div class="col-xs-12 col-sm-12 col-md-12">
-	<div class="row">
-		<?php do_action( 'lsx-faq-content-before' ); ?>
-	</div>
-	</div>
+
+		<?php
+		//If the search is empty show the categories
+		if ( empty( $_GET ) ) { ?>
+
+			<div class="col-xs-12 col-sm-12 col-md-12">
+				<div class="row">
+					<?php do_action( 'lsx-faq-content-before' ); ?>
+				</div>
+			</div>
 
 			<div class="lsx-documentation-container">
-
 				<?php
-				$count = 1;
+				$count      = 1;
 				$post_count = count( $faq_categories );
 				foreach ( $faq_categories as $term ) {
 
 					// Get all the FAQ post ids attached to this term
 					$current_terms_posts = new WP_Query(
 						array(
-							'post_type' => 'faq',
-							'post_status' => 'publish',
-							'nopagin' => true,
+							'post_type'    => 'faq',
+							'post_status'  => 'publish',
+							'nopagin'      => true,
 							'faq-category' => $term->slug,
-							'fields' => 'ids',
+							'fields'       => 'ids',
 						)
 					);
 
 					//Set our defaults
 					$number_of_questions = 0;
-					$all_faq_tags = array();
+					$all_faq_tags        = array();
 
 					//if our query has info, then use it
 					if ( $current_terms_posts->have_posts() ) {
 						foreach ( $current_terms_posts->posts as $faq_post ) {
 							//Increment the number of faq posts.
-							$number_of_questions++;
+							$number_of_questions ++;
 
 
 							$faq_tags = get_the_terms( $faq_post, 'faq-tags' );
@@ -103,17 +107,17 @@ get_header(); ?>
 					}
 
 					//Check if we have an image
-					$thumbnail = false;
+					$thumbnail     = false;
 					$value         = get_term_meta( $term->term_id, 'thumbnail', true );
 					$image_preview = wp_get_attachment_image_src( $value, 'thumbnail' );
 
 					if ( is_array( $image_preview ) ) {
 						$width = $image_preview[1];
-						if ( '1' === $width || 1 === $width) {
+						if ( '1' === $width || 1 === $width ) {
 							$width = '150';
 						}
 						$height = $image_preview[2];
-						if ( '1' === $height || 1 === $height) {
+						if ( '1' === $height || 1 === $height ) {
 							$height = '150';
 						}
 
@@ -130,41 +134,55 @@ get_header(); ?>
 						<article class="lsx-documentation-slot">
 							<figure class="lsx-documentation-avatar">
 								<?php
-									if ( false !== $thumbnail ) {
-										echo wp_kses_post( $thumbnail );
-									}
+								if ( false !== $thumbnail ) {
+									echo wp_kses_post( $thumbnail );
+								}
 								?>
 							</figure>
 
 							<h5 class="lsx-documentation-title">
-								<a href="<?php echo get_term_link( $term ); ?>"><?php echo esc_attr( $term->name ); ?> - (<?php echo wp_kses_post( $number_of_questions ); ?>)</a>
+								<a href="<?php echo get_term_link( $term ); ?>"><?php echo esc_attr( $term->name ); ?> -
+									(<?php echo wp_kses_post( $number_of_questions ); ?>)</a>
 							</h5>
 							<div class="lsx-documentation-tags">
 								<?php if ( ! empty( $faq_tags ) ) {
 									echo wp_kses_post( implode( ', ', $all_faq_tags ) );
-								}?>
+								} ?>
 							</div>
 							<div class="lsx-documentation-content">
-								<a href="<?php echo get_term_link( $term ); ?>" class="moretag"><?php echo esc_html('View FAQ\'s'); ?></a>
+								<a href="<?php echo get_term_link( $term ); ?>"
+								   class="moretag"><?php echo esc_html( 'View FAQ\'s' ); ?></a>
 							</div>
 						</article>
 					</div>
 
 					<?php
 					if ( 0 === $count % 3 || $count === $post_count ) {
-					   echo '</div>';
+						echo '</div>';
 						if ( $count < $post_count ) {
 							echo "<div class='row row-flex'>";
 						}
 					}
-					$count++;
+					$count ++;
 				}
 				?>
 				<?php do_action( 'lsx-faq-content-after' ); ?>
-
 			</div>
 
-			<?php lsx_paging_nav(); ?>
+		<?php } else {
+
+			//Show the search results
+			if ( have_posts () ) {
+				while ( have_posts() ) {
+					include( LSX_FAQ_PATH . '/templates/content-faq.php' );
+				}
+			} else {
+				get_template_part( 'partials/content', 'none' );
+			}
+
+		} ?>
+
+		<?php lsx_paging_nav(); ?>
 
 		<?php lsx_content_bottom(); ?>
 
