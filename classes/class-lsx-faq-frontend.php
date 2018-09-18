@@ -25,7 +25,7 @@ class LSX_FAQ_Frontend
 		add_filter( 'template_include', array( $this, 'archive_template_include' ), 99 );
 		add_filter( 'template_include', array( $this, 'taxonomy_template_include' ), 99 );
 		add_action( 'template_redirect', array( $this, 'disable_single_templates' ) );
-		add_filter( 'lsx_banner_title', array( $this, 'lsx_banner_archive_title' ), 99, 1 );
+		add_filter( 'get_the_archive_title', array( $this, 'lsx_banner_archive_title' ), 99, 1 );
 		add_filter( 'woocommerce_product_tabs', array( $this, 'register_product_tab' ), 20, 1 );
 
 		add_action( 'lsx-faq-content-before', array( $this, 'archive_search_form' ) );
@@ -153,13 +153,13 @@ class LSX_FAQ_Frontend
  * Change the LSX Banners title for the FAQ archive.
  */
 public function lsx_banner_archive_title( $title ) {
-	if ( is_main_query() && is_post_type_archive( 'faq' ) ) {
-		$title = '<h1 class="page-title">' . esc_html__( 'FAQ', 'lsx-faq' ) . '</h1>';
+	if ( is_post_type_archive( 'faq' ) ) {
+		$title = '<h1 class="archive-title">' . esc_html__( 'FAQ', 'lsx-faq' ) . '</h1>';
 	}
 
-	if ( is_main_query() && is_tax( 'faq-category' ) ) {
+	if ( is_tax( 'faq-category' ) ) {
 	$tax = get_queried_object();
-		$title = '<h1 class="page-title">' . esc_html__( 'Documentation Type', 'lsx-faq' ) . ': ' . apply_filters( 'the_title', $tax->name ) . '</h1>';
+		$title = '<h1 class="archive-title">' . esc_html__( 'Documentation Type', 'lsx-faq' ) . ': ' . apply_filters( 'the_title', $tax->name ) . '</h1>';
 	}
 
 	return $title;
