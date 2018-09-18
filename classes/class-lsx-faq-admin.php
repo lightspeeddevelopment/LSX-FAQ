@@ -165,16 +165,6 @@ class LSX_FAQ_Admin
 		register_taxonomy( 'faq-tags', array( 'faq' ), $args );
 	}
 
-	public function assets() {
-		// wp_enqueue_media();.
-		wp_enqueue_script( 'media-upload' );
-		wp_enqueue_script( 'thickbox' );
-		wp_enqueue_style( 'thickbox' );
-
-		wp_enqueue_script( 'lsx-faq-admin', LSX_FAQ_URL . 'assets/js/lsx-faq-admin.min.js', array( 'jquery' ), LSX_FAQ_VER, true );
-		wp_enqueue_style( 'lsx-faq-admin', LSX_FAQ_URL . 'assets/css/lsx-faq-admin.css', array(), LSX_FAQ_VER );
-	}
-
 	/**
 	 * Display the custom text field
 	 * @since 1.0.0

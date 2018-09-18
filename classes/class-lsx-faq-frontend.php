@@ -22,6 +22,7 @@ class LSX_FAQ_Frontend
 	 */
 	public function __construct() {
 		// Redirect the Archive template and the category template
+		add_action( 'wp_enqueue_scripts', array( $this, 'assets' ) );
 		add_filter( 'template_include', array( $this, 'archive_template_include' ), 99 );
 		add_filter( 'template_include', array( $this, 'taxonomy_template_include' ), 99 );
 		add_action( 'template_redirect', array( $this, 'disable_single_templates' ) );
@@ -42,6 +43,11 @@ class LSX_FAQ_Frontend
 		}
 		return self::$instance;
 	}
+
+	public function assets() {
+		wp_enqueue_script( 'lsx-faq', LSX_FAQ_URL . 'assets/js/lsx-faq.min.js', array( 'jquery' ), LSX_FAQ_VER, true );
+	}
+
 	/**
 	 * Check for an archive-faq.php in the theme, if not default to the plugin version
 	 *
