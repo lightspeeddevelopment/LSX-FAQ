@@ -130,11 +130,16 @@ class LSX_FAQ_Frontend
 				);
 
 				if ( $faq_query->have_posts() ) {
-					$faq_counter = 1;
+
+					echo '<div class="parent-container-faq"><ul class="faq">';
+
+                    $faq_counter = 1;
 					while ( $faq_query->have_posts() ) {
 						$faq_query->the_post();
 						include( LSX_FAQ_PATH . '/templates/content-faq.php' );
 					}
+
+					echo '</ul></div>';
 				}
 
 				wp_reset_query();
