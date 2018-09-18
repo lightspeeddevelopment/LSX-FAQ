@@ -172,11 +172,16 @@ get_header(); ?>
 		<?php } else {
 
 			//Show the search results
-			if ( have_posts () ) {
-				while ( have_posts() ) {
-					include( LSX_FAQ_PATH . '/templates/content-faq.php' );
-				}
-			} else {
+			if ( have_posts () ) { ?>
+				<div class="parent-container-faq">
+					<ul class="faq">
+						<?php while ( have_posts() ) {
+							the_post();
+							include( LSX_FAQ_PATH . '/templates/content-faq.php' );
+						} ?>
+					</ul>
+				</div>
+			<?php } else {
 				get_template_part( 'partials/content', 'none' );
 			}
 
