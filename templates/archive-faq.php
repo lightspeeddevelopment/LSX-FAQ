@@ -54,7 +54,11 @@ get_header(); ?>
 
 		<?php lsx_content_top(); ?>
 
+	<div class="col-xs-12 col-sm-12 col-md-12">
+	<div class="row">
 		<?php do_action( 'lsx-faq-content-before' ); ?>
+	</div>
+	</div>
 
 			<div class="lsx-documentation-container">
 
@@ -141,7 +145,7 @@ get_header(); ?>
 								}?>
 							</div>
 							<div class="lsx-documentation-content">
-								<a href="<?php echo get_term_link( $term ); ?>" class="moretag"><?php esc_html_e( 'View Documentation' ); ?></a>
+								<a href="<?php echo get_term_link( $term ); ?>" class="moretag"><?php esc_html_e( 'View FAQ\'s ); ?></a>
 							</div>
 						</article>
 					</div>

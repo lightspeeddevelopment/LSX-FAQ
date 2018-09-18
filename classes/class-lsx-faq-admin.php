@@ -107,7 +107,7 @@ class LSX_FAQ_Admin
 	public function taxonomy_setup() {
 		$labels = array(
 			'name'              => esc_html_x( 'FAQ Categories', 'taxonomy general name', 'lsx-faq' ),
-			'singular_name'     => esc_html_x( 'FAQ Cateogry', 'taxonomy singular name', 'lsx-faq' ),
+			'singular_name'     => esc_html_x( 'FAQ Category', 'taxonomy singular name', 'lsx-faq' ),
 			'search_items'      => esc_html__( 'Search FAQ', 'lsx-faq' ),
 			'all_items'         => esc_html__( 'All FAQ', 'lsx-faq' ),
 			'parent_item'       => esc_html__( 'Parent FAQ', 'lsx-faq' ),
