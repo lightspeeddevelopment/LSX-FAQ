@@ -145,7 +145,7 @@ get_header(); ?>
 								}?>
 							</div>
 							<div class="lsx-documentation-content">
-								<a href="<?php echo get_term_link( $term ); ?>" class="moretag"><?php esc_html_e( 'View FAQ\'s ); ?></a>
+								<a href="<?php echo get_term_link( $term ); ?>" class="moretag"><?php echo esc_html('View FAQ\'s'); ?></a>
 							</div>
 						</article>
 					</div>
