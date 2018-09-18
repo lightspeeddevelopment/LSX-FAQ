@@ -38,7 +38,8 @@ get_header(); ?>
 		<?php lsx_content_top(); ?>
 
 		<?php if ( have_posts() ) : ?>
-
+<div class="entry-content"><h3><strong>CLICK ON THE FAQ’S BELOW TO VIEW THE ANSWERS:</strong></h3>
+</div>
 		<div class="parent-container-faq">
   <ul class="faq"> 
 					<?php
