@@ -187,8 +187,6 @@ get_header(); ?>
 
 		} ?>
 
-		<?php lsx_paging_nav(); ?>
-
 		<?php lsx_content_bottom(); ?>
 
 	</main><!-- #main -->
