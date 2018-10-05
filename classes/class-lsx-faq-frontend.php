@@ -133,6 +133,12 @@ class LSX_FAQ_Frontend
 
 				if ( $faq_query->have_posts() ) {
 
+					//If there are categories assign, and general posts then add them in.
+					$faq_categories = get_post_meta( get_the_ID(), 'lsx_faq_categories', true );
+					if ( false !== $faq_categories && '' !== $faq_categories ) {
+						echo '<h3 class="faq">'.  __( 'General', 'lsx-faq' ) . '</h3>';
+					}
+
 					echo '<div class="parent-container-faq"><ul class="faq">';
 
                     $faq_counter = 1;
@@ -149,6 +155,66 @@ class LSX_FAQ_Frontend
 
 			} else {
 				echo wp_kses_post( '<article><p>' . __( 'There are no FAQ posts assigned', 'lsx-faq' ) . '</p></article>');
+			}
+		}
+
+		$this->product_tab_content_category( $slug, $tab );
+	}
+
+	/**
+	 * Grabs the categories assigned to the product and runs through them.
+	 * @param $slug
+	 * @param $tab
+	 */
+	function product_tab_content_category( $slug, $tab ) {
+		global $faq_counter;
+		$faq_categories = get_post_meta( get_the_ID(), 'lsx_faq_categories', true );
+
+		if ( false !== $faq_categories && '' !== $faq_categories ) {
+
+			if ( ! is_array( $faq_categories ) ) {
+				$faq_categories = explode( ',', $faq_categories );
+			}
+
+			if ( ! empty( $faq_categories ) ) {
+
+				foreach( $faq_categories as $category ) {
+
+					$faq_query = new \WP_Query(
+						array(
+							'faq-category' => $category,
+							'posts_per_page' => -1,
+							'post_type' => 'faq',
+							'post_status' => 'publish',
+						)
+					);
+
+					if ( $faq_query->have_posts() ) {
+
+						$category_obj = get_term_by( 'slug', $category, 'faq-category' );
+
+						echo '<div class="parent-container-faq">';
+
+						echo '<h3 class="faq">'.  $category_obj->name . '</h3>';
+
+						echo '<ul class="faq">';
+
+						$faq_counter = 1;
+						while ( $faq_query->have_posts() ) {
+							$faq_query->the_post();
+							include( LSX_FAQ_PATH . '/templates/content-faq.php' );
+						}
+
+						echo '</ul></div>';
+					}
+
+					wp_reset_query();
+					wp_reset_postdata();
+
+				}
+
+			} else {
+				echo wp_kses_post( '<article><p>' . __( 'There are no FAQ posts assigned to this category', 'lsx-faq' ) . '</p></article>');
 			}
 		}
 	}

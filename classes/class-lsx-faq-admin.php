@@ -236,7 +236,7 @@ class LSX_FAQ_Admin
 		$tax_terms = get_terms($term_args);
 		if( ! empty( $tax_terms ) ) {
 			foreach ( $tax_terms as $tax_term ) {
-				$options[ $tax_term->term_id ] = $tax_term->name;
+				$options[ $tax_term->slug ] = $tax_term->name;
 			}
 		} else {
 			$options[ 0 ] = __( 'Please add FAQ terms', 'lsx-faq' );
