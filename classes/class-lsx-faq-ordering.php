@@ -555,12 +555,16 @@ class LSX_FAQ_Ordering {
 		return $terms;
 	}
 
-	function taxcmp( $a, $b ) {
-		if ( (int) $a->lsx_faq_term_order == (int) $b->lsx_faq_term_order ) {
+	public function taxcmp( $a, $b ) {
+
+		$a_sort = get_term_meta( $a->term_id, 'lsx_faq_term_order', true );
+		$b_sort = get_term_meta( $b->term_id, 'lsx_faq_term_order', true );
+
+		if ( (int) $a_sort == (int) $b_sort ) {
 			return 0;
 		}
 
-		return ( (int) $a->lsx_faq_term_order < (int) $b->lsx_faq_term_order ) ? - 1 : 1;
+		return ( (int) $a_sort < (int) $b_sort ) ? - 1 : 1;
 	}
 
 	function get_objects() {
