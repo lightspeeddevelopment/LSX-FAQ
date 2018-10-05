@@ -170,7 +170,7 @@ public function lsx_banner_archive_title( $title ) {
 
 	if ( is_tax( 'faq-category' ) ) {
 	$tax = get_queried_object();
-		$title = '<h1 class="archive-title">' . esc_html__( 'Documentation Type', 'lsx-faq' ) . ': ' . apply_filters( 'the_title', $tax->name ) . '</h1>';
+		$title = '<h1 class="archive-title">' . apply_filters( 'the_title', $tax->name ) . '</h1>';
 	}
 
 	return $title;
