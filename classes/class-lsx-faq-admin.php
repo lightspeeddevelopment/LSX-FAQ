@@ -200,6 +200,9 @@ class LSX_FAQ_Admin
 		//woocommerce_wp_text_input( $args );
 
 		woocommerce_wp_select_multiple( $args );
+
+
+		wc_get_products();
 	}
 
 	/**
