@@ -289,8 +289,7 @@ class LSX_FAQ_Ordering {
 	}
 
 	function update_menu_order_tags() {
-		check_ajax_referer( 'scporder', 'security' );
-
+		//check_ajax_referer( 'scporder', 'security' );
 		global $wpdb;
 
 		parse_str( sanitize_text_field( $_POST['order'] ), $data );
@@ -306,7 +305,6 @@ class LSX_FAQ_Ordering {
 				$id_arr[] = $id;
 			}
 		}
-
 		$menu_order_arr = array();
 
 		foreach ( $id_arr as $key => $id ) {
