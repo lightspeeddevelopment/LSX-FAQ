@@ -298,7 +298,7 @@ class LSX_FAQ_Ordering {
 			return false;
 		}
 
-		$id_arr = array();
+		/*$id_arr = array();
 
 		foreach ( $data as $key => $values ) {
 			foreach ( $values as $position => $id ) {
@@ -309,19 +309,25 @@ class LSX_FAQ_Ordering {
 
 		foreach ( $id_arr as $key => $id ) {
 			$results = $wpdb->get_results( "SELECT lsx_faq_term_order FROM $wpdb->terms WHERE term_id = " . intval( $id ) );
-			foreach ( $results as $result ) {
-				$menu_order_arr[] = $result->lsx_faq_term_order;
+
+			print_r($results);
+			if ( ! empty( $results ) ) {
+				foreach ( $results as $result ) {
+					$menu_order_arr[] = $result->lsx_faq_term_order;
+				}
+			} else {
+				$menu_order_arr[] = [0];
 			}
 		}
 
-		sort( $menu_order_arr );
+		sort( $menu_order_arr );*/
 
 		foreach ( $data as $key => $values ) {
 			foreach ( $values as $position => $id ) {
 				$wpdb->update(
 					$wpdb->terms,
 					array(
-						'lsx_faq_term_order' => $menu_order_arr[ $position ],
+						'lsx_faq_term_order' => (int) $position + 1,
 					),
 					array(
 						'term_id' => intval( $id ),
