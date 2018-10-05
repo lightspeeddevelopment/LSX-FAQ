@@ -206,9 +206,6 @@ class LSX_FAQ_Admin
 		//woocommerce_wp_text_input( $args );
 
 		woocommerce_wp_select_multiple( $args );
-
-
-		wc_get_products();
 	}
 
 	/**
@@ -228,22 +225,22 @@ class LSX_FAQ_Admin
      */
     function register_wc_custom_faq_terms_field() {
 
-    $term_args = array(
-'taxonomy' => 'faq-category',
-'hide_empty' => false,
-'orderby' => 'name',
-'order' => 'ASC'
-);
-    
-    $options = array();
-    $tax_terms = get_terms($term_args);
-        if( ! empty( $tax_terms ) ) {
-    foreach ( $tax_terms as $tax_term ) {
-   $options[ $tax_term->term_id ] = $tax_term->name;
-}
-        } else {
-            $options[ 0 ] = __( 'Please add FAQ terms', 'lsx-faq' );
-        }
+		$term_args = array(
+			'taxonomy' => 'faq-category',
+			'hide_empty' => false,
+			'orderby' => 'name',
+			'order' => 'ASC'
+		);
+
+		$options = array();
+		$tax_terms = get_terms($term_args);
+		if( ! empty( $tax_terms ) ) {
+			foreach ( $tax_terms as $tax_term ) {
+				$options[ $tax_term->term_id ] = $tax_term->name;
+			}
+		} else {
+			$options[ 0 ] = __( 'Please add FAQ terms', 'lsx-faq' );
+		}
 
         $args = array(
             'id' => 'lsx_faq_categories',
@@ -257,9 +254,6 @@ class LSX_FAQ_Admin
         //woocommerce_wp_text_input( $args );
 
         woocommerce_wp_select_multiple( $args );
-
-
-        wc_get_products();
     }
 
 	/**

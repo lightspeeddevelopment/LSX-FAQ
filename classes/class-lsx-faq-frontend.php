@@ -30,6 +30,8 @@ class LSX_FAQ_Frontend
 		add_filter( 'woocommerce_product_tabs', array( $this, 'register_product_tab' ), 20, 1 );
 
 		add_action( 'lsx-faq-content-before', array( $this, 'archive_search_form' ) );
+
+		add_filter( 'woocommerce_get_breadcrumb', array( $this, 'breadcrumb_links' ), 90 );
 	}
 	/**
 	 * Return an instance of this class.
@@ -158,6 +160,23 @@ class LSX_FAQ_Frontend
 		if ( ! isset( $_GET['fwp_faq_tags'] ) && ! isset( $_GET['fwp_faq_category'] ) && ! isset( $_GET['fwp_faq_search'] )  ) {
 			lsx_faq_search();
 		}
+	}
+
+	/**
+	 * Replace the breadcrumbs link
+	 * @param $crumbs
+	 *
+	 * @return mixed
+	 */
+	public function breadcrumb_links( $crumbs ) {
+		if ( is_tax( 'faq-category' ) ) {
+			$crumbs[1] = array(
+				0 => __( 'FAQ', 'lsx-faq'),
+				1  => home_url( '/faq/' ),
+			);
+		}
+
+		return $crumbs;
 	}
 	
 /**

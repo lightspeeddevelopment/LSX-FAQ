@@ -16,13 +16,12 @@ if ( $terms && ! is_wp_error( $terms ) ) {
 		$doc_categories = array();
 		$doc_categories_class = array();
 
-	foreach ( $terms as $term ) {
-			$doc_categories[] = '<a href="' . get_term_link( $term ) . '">' . $term->name . '</a>';
-			$doc_categories_class[] = 'filter-' . $term->slug;
-	}
+		foreach ( $terms as $term ) {
+				$doc_categories[] = '<a href="' . get_term_link( $term ) . '">' . $term->name . '</a>';
+				$doc_categories_class[] = 'filter-' . $term->slug;
+		}
 
 		$doc_categories = join( ', ', $doc_categories );
-		$doc_categories = join( ' ', $doc_categories );
 }
 ?>
 
