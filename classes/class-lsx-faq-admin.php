@@ -33,7 +33,9 @@ class LSX_FAQ_Admin
 		add_action( 'init', array( $this, 'product_taxonomy_setup' ) );
 		add_action( 'woocommerce_product_options_general_product_data', array( $this, 'register_wc_custom_field' ), 20 );
 		add_action( 'woocommerce_process_product_meta', array( $this, 'save_wc_custom_field' ) );
-		
+		add_action( 'woocommerce_product_options_general_product_data', array( $this, 'register_wc_custom_faq_terms_field' ), 20 );
+		add_action( 'woocommerce_process_product_meta', array( $this, 'save_wc_term_custom_field' ) );
+
 		//Creates the custom meta boxs for the faqs		
 		add_filter( 'cmb_meta_boxes', array( $this, 'field_setup' ), 1, 20 );
 		add_action( 'cmb_save_custom', array( $this, 'post_relations' ), 3, 20 );
@@ -219,6 +221,65 @@ class LSX_FAQ_Admin
 		$product->update_meta_data( 'lsx_faq_posts', $title );
 		$product->save();
 	}
+
+	/**
+	 * Display the custom term text field
+	 * @since 1.0.0
+	 */
+	function register_wc_custom_faq_terms_field() {
+
+		$faq_terms = new \WP_Query(
+			array(
+				'post_type' => 'faq',
+				'post_status' => 'publish',
+				'posts_per_page' => -1,
+				'nopagin' => true,
+				'tax_query' => array(
+                    array(
+                        'taxonomy' => 'faq-category',
+                        'field' => 'id',
+                        'terms' => array ('whatever1', 'whatever2', 'whatever3')
+                    )
+                )
+			)
+		);
+		$options = array();
+		if ( $faq_terms->have_posts() ) {
+			foreach ( $faq_terms->posts as $faq_post ) {
+				$options[ $faq_post->ID ] = $faq_post->post_title;
+			}
+		} else {
+			$options[ 0 ] = __( 'Please add FAQ terms', 'lsx-faq' );
+		}
+
+		$args = array(
+			'id' => 'lsx_faq_terms',
+			'name' => 'lsx_faq_terms[]',
+			'label' => __( 'FAQ', 'lsx-faq' ),
+			'class' => 'lsx-faq-custom-field',
+			'desc_tip' => true,
+			'description' => __( 'Select the categories related to this product', 'lsx-faq' ),
+			'options' => $options
+		);
+		//woocommerce_wp_text_input( $args );
+
+		woocommerce_wp_select_multiple( $args );
+
+
+		wc_get_products();
+	}
+
+	/**
+	* Save the term custom field
+	* @since 1.0.0
+	*/
+	function save_wc_term_custom_field( $post_id ) {
+		$product = wc_get_product( $post_id );
+		$title = isset( $_POST['lsx_faq_terms'] ) ? $_POST['lsx_faq_terms'] : '';
+		$product->update_meta_data( 'lsx_faq_terms', $title );
+		$product->save();
+	}
+
 
 	//This is the featured image functions
 	/**
