@@ -324,7 +324,11 @@ class LSX_FAQ_Ordering {
 
 		foreach ( $data as $key => $values ) {
 			foreach ( $values as $position => $id ) {
-				$wpdb->update(
+
+				delete_term_meta( $id, 'lsx_faq_term_order' );
+				add_term_meta( $id, 'lsx_faq_term_order', (int) ( $position + 1 ) );
+
+				/*$wpdb->update(
 					$wpdb->terms,
 					array(
 						'lsx_faq_term_order' => (int) $position + 1,
@@ -332,10 +336,10 @@ class LSX_FAQ_Ordering {
 					array(
 						'term_id' => intval( $id ),
 					)
-				);
+				);*/
 			}
 		}
-		die();
+		die('complete');
 	}
 
 	function previous_post_where( $where ) {
@@ -408,6 +412,7 @@ class LSX_FAQ_Ordering {
 		}
 
 		if ( is_admin() ) {
+
 			if ( isset( $wp_query->query['post_type'] ) && ! isset( $_GET['orderby'] ) && array_key_exists( $wp_query->query['post_type'], $objects ) ) {
 
 				//Check if we need to order by the FAQ category
@@ -494,9 +499,9 @@ class LSX_FAQ_Ordering {
 	}
 
 	function get_terms_orderby( $orderby, $args ) {
-		if ( is_admin() ) {
+		/*if ( is_admin() ) {
 			return $orderby;
-		}
+		}*/
 
 		if ( isset( $args['disabled_custom_post_order'] ) ) {
 			return $orderby;
@@ -524,7 +529,7 @@ class LSX_FAQ_Ordering {
 	function get_object_terms( $terms, $not_used, $args_1, $args_2 = null ) {
 		$tags = $this->get_tags();
 
-		if ( is_admin() && isset( $_GET['orderby'] ) ) {
+		if ( isset( $_GET['orderby'] ) ) {
 			return $terms;
 		}
 
@@ -550,12 +555,16 @@ class LSX_FAQ_Ordering {
 		return $terms;
 	}
 
-	function taxcmp( $a, $b ) {
-		if ( $a->lsx_faq_term_order == $b->lsx_faq_term_order ) {
+	public function taxcmp( $a, $b ) {
+
+		$a_sort = get_term_meta( $a->term_id, 'lsx_faq_term_order', true );
+		$b_sort = get_term_meta( $b->term_id, 'lsx_faq_term_order', true );
+
+		if ( (int) $a_sort == (int) $b_sort ) {
 			return 0;
 		}
 
-		return ( $a->lsx_faq_term_order < $b->lsx_faq_term_order ) ? - 1 : 1;
+		return ( (int) $a_sort < (int) $b_sort ) ? - 1 : 1;
 	}
 
 	function get_objects() {
