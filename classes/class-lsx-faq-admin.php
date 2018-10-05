@@ -355,10 +355,7 @@ class LSX_FAQ_Admin
 	 * Add metabox with custom fields to the faq post type
 	 */
 	public function field_setup( $meta_boxes ) {
-		$prefix = 'lsx_faq_';
-
-		$fields = array(
-	
+		
 		 $fields[] = array(
 		 	'name' => esc_html__( 'Product:', 'lsx-faq' ),
 		 	'id' => 'faq_to_product',
