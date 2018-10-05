@@ -33,6 +33,10 @@ class LSX_FAQ_Admin
 		add_action( 'init', array( $this, 'product_taxonomy_setup' ) );
 		add_action( 'woocommerce_product_options_general_product_data', array( $this, 'register_wc_custom_field' ), 20 );
 		add_action( 'woocommerce_process_product_meta', array( $this, 'save_wc_custom_field' ) );
+		
+		//Creates the custom meta boxs for the faqs		
+		add_filter( 'cmb_meta_boxes', array( $this, 'field_setup' ), 1, 20 );
+		add_action( 'cmb_save_custom', array( $this, 'post_relations' ), 3, 20 );
 
 		//Handles the saving of the term image
 		add_action( 'create_term', array( $this, 'save_meta' ), 20, 2 );
@@ -285,6 +289,82 @@ class LSX_FAQ_Admin
 				delete_term_meta( $term_id, 'thumbnail' );
 			} else {
 				update_term_meta( $term_id, 'thumbnail', $thumbnail_meta );
+			}
+		}
+	}
+
+
+		/**
+	 * Add metabox with custom fields to the faq post type
+	 */
+	public function field_setup( $meta_boxes ) {
+		$prefix = 'lsx_faq_';
+
+		$fields = array(
+	
+		 $fields[] = array(
+		 	'name' => esc_html__( 'Product:', 'lsx-faq' ),
+		 	'id' => 'faq_to_product',
+		 	'type' => 'post_select',
+		 	'use_ajax' => true,
+		 	'query' => array(
+		 		'post_type' => 'product',
+		 		'nopagin' => true,
+		 		'posts_per_page' => '50',
+		 		'orderby' => 'title',
+		 		'order' => 'ASC',
+		 	),
+		 	'repeatable' => true,
+		 	'allow_none' => true,
+		 	'cols' => 12,
+		 );
+
+
+		$meta_boxes[] = array(
+			'title'  => esc_html__( 'Product Related to this FAQ', 'lsx-faq' ),
+			'pages'  => 'faq',
+			'fields' => $fields,
+		);
+
+		return $meta_boxes;
+	}
+
+	/**
+	 * Sets up the "post relations".
+	 */
+	public function post_relations( $post_id, $field, $value ) {
+		$connections = array(
+			 'faq_to_product',
+	
+		);
+
+		if ( in_array( $field['id'], $connections ) ) {
+			$this->save_related_post( $connections, $post_id, $field, $value );
+		}
+	}
+
+	/**
+	 * Save the reverse post relation.
+	 */
+	public function save_related_post( $connections, $post_id, $field, $value ) {
+		$ids = explode( '_to_', $field['id'] );
+		$relation = $ids[1] . '_to_' . $ids[0];
+
+		if ( in_array( $relation, $connections ) ) {
+			$previous_values = get_post_meta( $post_id, $field['id'], false );
+
+			if ( ! empty( $previous_values ) ) {
+				foreach ( $previous_values as $v ) {
+					delete_post_meta( $v, $relation, $post_id );
+				}
+			}
+
+			if ( is_array( $value ) ) {
+				foreach ( $value as $v ) {
+					if ( ! empty( $v ) ) {
+						add_post_meta( $v, $relation, $post_id );
+					}
+				}
 			}
 		}
 	}
