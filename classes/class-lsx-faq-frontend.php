@@ -95,7 +95,8 @@ class LSX_FAQ_Frontend
 	 */
 	public function register_product_tab( $tabs ) {
 		$faq_posts = get_post_meta( get_the_ID(), 'lsx_faq_posts', true );
-		if ( false !== $faq_posts && '' !== $faq_posts ) {
+		$faq_categories = get_post_meta( get_the_ID(), 'lsx_faq_categories', true );
+		if ( ( false !== $faq_posts && '' !== $faq_posts ) || ( false !== $faq_categories && '' !== $faq_categories ) ) {
 			$tabs['faq'] = array(
 				'title'    => __( 'FAQ', 'lsx-faq' ),
 				'callback' => array( $this, 'product_tab_content' ),
