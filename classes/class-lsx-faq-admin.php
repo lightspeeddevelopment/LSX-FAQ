@@ -222,52 +222,45 @@ class LSX_FAQ_Admin
 		$product->save();
 	}
 
-	/**
-	 * Display the custom term text field
-	 * @since 1.0.0
-	 */
-	function register_wc_custom_faq_terms_field() {
+    /**
+     * Display the custom term text field
+     * @since 1.0.0
+     */
+    function register_wc_custom_faq_terms_field() {
 
-		$faq_terms = new \WP_Query(
-			array(
-				'post_type' => 'faq',
-				'post_status' => 'publish',
-				'posts_per_page' => -1,
-				'nopagin' => true,
-				'tax_query' => array(
-                    array(
-                        'taxonomy' => 'faq-category',
-                        'field' => 'id',
-                        'terms' => array ('whatever1', 'whatever2', 'whatever3')
-                    )
-                )
-			)
-		);
-		$options = array();
-		if ( $faq_terms->have_posts() ) {
-			foreach ( $faq_terms->posts as $faq_post ) {
-				$options[ $faq_post->ID ] = $faq_post->post_title;
-			}
-		} else {
-			$options[ 0 ] = __( 'Please add FAQ terms', 'lsx-faq' );
-		}
+    $term_args = array(
+'taxonomy' => 'faq-category',
+'hide_empty' => false,
+'orderby' => 'name',
+'order' => 'ASC'
+);
+    
+    $options = array();
+    $tax_terms = get_terms($term_args);
+        if( ! empty( $tax_terms ) ) {
+    foreach ( $tax_terms as $tax_term ) {
+   $options[ $tax_term->term_id ] = $tax_term->name;
+}
+        } else {
+            $options[ 0 ] = __( 'Please add FAQ terms', 'lsx-faq' );
+        }
 
-		$args = array(
-			'id' => 'lsx_faq_terms',
-			'name' => 'lsx_faq_terms[]',
-			'label' => __( 'FAQ', 'lsx-faq' ),
-			'class' => 'lsx-faq-custom-field',
-			'desc_tip' => true,
-			'description' => __( 'Select the categories related to this product', 'lsx-faq' ),
-			'options' => $options
-		);
-		//woocommerce_wp_text_input( $args );
+        $args = array(
+            'id' => 'lsx_faq_categories',
+            'name' => 'lsx_faq_categories[]',
+            'label' => __( 'FAQ Categories', 'lsx-faq' ),
+            'class' => 'lsx-faq-custom-field',
+            'desc_tip' => true,
+            'description' => __( 'Select the categories related to this product', 'lsx-faq' ),
+            'options' => $options
+        );
+        //woocommerce_wp_text_input( $args );
 
-		woocommerce_wp_select_multiple( $args );
+        woocommerce_wp_select_multiple( $args );
 
 
-		wc_get_products();
-	}
+        wc_get_products();
+    }
 
 	/**
 	* Save the term custom field
@@ -275,8 +268,8 @@ class LSX_FAQ_Admin
 	*/
 	function save_wc_term_custom_field( $post_id ) {
 		$product = wc_get_product( $post_id );
-		$title = isset( $_POST['lsx_faq_terms'] ) ? $_POST['lsx_faq_terms'] : '';
-		$product->update_meta_data( 'lsx_faq_terms', $title );
+		$title = isset( $_POST['lsx_faq_categories'] ) ? $_POST['lsx_faq_categories'] : '';
+		$product->update_meta_data( 'lsx_faq_categories', $title );
 		$product->save();
 	}
 
