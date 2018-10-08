@@ -215,6 +215,43 @@ class LSX_FAQ_Admin
 	function save_wc_custom_field( $post_id ) {
 		$product = wc_get_product( $post_id );
 		$title = isset( $_POST['lsx_faq_posts'] ) ? $_POST['lsx_faq_posts'] : '';
+
+		//Grab all of the posts and save them to the corresponding FAQ post
+		$previous_faq_posts = get_post_meta( $post_id, 'lsx_faq_posts', true );
+
+		$faq_to_remove_from = array();
+		$faq_to_add_to = array();
+		//Look for posts to remove
+		if ( ! empty( $previous_faq_posts ) && '' !== $previous_faq_posts ) {
+
+			//If the current posts to save are empty then it mean we are deleting all of the previous ones.
+			if ( ! empty( $title ) && '' !== $title ) {
+				$faq_to_remove_from = array_diff( $previous_faq_posts, $title );
+				$faq_to_add_to = array_diff( $title, $previous_faq_posts );
+			} else { //Otherwise find the ones to delete.
+				$faq_to_remove_from = $previous_faq_posts;
+			}
+		} else {
+			$faq_to_add_to = $title;
+		}
+
+		//Run through and remove the items.
+		print_r('<pre>');
+		print_r( $faq_to_remove_from );
+		print_r( $faq_to_add_to );
+		print_r('</pre>');
+
+		if ( ! empty( $faq_to_remove_from ) && '' !== $faq_to_remove_from ) {
+			foreach ( $faq_to_remove_from as $faq_post ) {
+
+
+
+			}
+		}
+
+		die();
+
+		//Update the product Meta
 		$product->update_meta_data( 'lsx_faq_posts', $title );
 		$product->save();
 	}
