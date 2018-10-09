@@ -465,7 +465,7 @@ class LSX_FAQ_Admin
 					if ( ! empty( $previous_faq_posts ) && '' !== $previous_faq_posts  ) {
 						$temp = $previous_faq_posts;
 						foreach( $previous_faq_posts as $pfp_key => $pfp_value ) {
-							if ( $pfp_value === $pfp_value ) {
+							if ( $pfp_value === $post_id ) {
 								unset( $temp[ $pfp_key ] );
 							}
 						}
@@ -495,34 +495,6 @@ class LSX_FAQ_Admin
 			}
 		}
 	}
-
-	/**
-	 * Save the reverse post relation.
-	 */
-	public function save_related_post( $connections, $post_id, $field, $value ) {
-		$ids = explode( '_to_', $field['id'] );
-		$relation = $ids[1] . '_to_' . $ids[0];
-
-		if ( in_array( $relation, $connections ) ) {
-			$previous_values = get_post_meta( $post_id, $field['id'], false );
-
-			if ( ! empty( $previous_values ) ) {
-				foreach ( $previous_values as $v ) {
-					delete_post_meta( $v, $relation, $post_id );
-				}
-			}
-
-			if ( is_array( $value ) ) {
-				foreach ( $value as $v ) {
-					if ( ! empty( $v ) ) {
-						add_post_meta( $v, $relation, $post_id );
-					}
-				}
-			}
-		}
-	}
-
-
 
 }
 //end class
