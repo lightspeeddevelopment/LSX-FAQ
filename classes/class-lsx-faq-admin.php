@@ -228,28 +228,39 @@ class LSX_FAQ_Admin
 			if ( ! empty( $title ) && '' !== $title ) {
 				$faq_to_remove_from = array_diff( $previous_faq_posts, $title );
 				$faq_to_add_to = array_diff( $title, $previous_faq_posts );
+				if ( empty( $faq_to_add_to ) ) {
+					$faq_to_add_to = $title;
+				}
 			} else { //Otherwise find the ones to delete.
 				$faq_to_remove_from = $previous_faq_posts;
+				$faq_to_add_to = $title;
 			}
 		} else {
 			$faq_to_add_to = $title;
 		}
 
 		//Run through and remove the items.
-		print_r('<pre>');
-		print_r( $faq_to_remove_from );
-		print_r( $faq_to_add_to );
-		print_r('</pre>');
-
 		if ( ! empty( $faq_to_remove_from ) && '' !== $faq_to_remove_from ) {
+			if ( ! is_array( $faq_to_remove_from ) ) {
+				$faq_to_remove_from = array( $faq_to_remove_from );
+			}
 			foreach ( $faq_to_remove_from as $faq_post ) {
-
-
-
+				delete_post_meta( $faq_post, 'faq_to_product', $post_id );
 			}
 		}
 
-		die();
+		if ( ! empty( $faq_to_add_to ) && '' !== $faq_to_add_to ) {
+			if ( ! is_array( $faq_to_add_to ) ) {
+				$faq_to_add_to = array( $faq_to_add_to );
+			}
+			foreach ( $faq_to_add_to as $faq_post_to_add ) {
+				$current_product = get_post_meta( $faq_post_to_add, 'faq_to_product', false );
+				if ( is_array( $current_product ) && ! empty( $current_product ) && in_array( $post_id, $current_product ) ) {
+					continue;
+				}
+				add_post_meta( $faq_post_to_add, 'faq_to_product', $post_id, false );
+			}
+		}
 
 		//Update the product Meta
 		$product->update_meta_data( 'lsx_faq_posts', $title );
@@ -417,14 +428,71 @@ class LSX_FAQ_Admin
 	/**
 	 * Sets up the "post relations".
 	 */
-	public function post_relations( $post_id, $field, $value ) {
+	public function post_relations( $post_id, $field, $values ) {
 		$connections = array(
 			 'faq_to_product',
-	
 		);
 
 		if ( in_array( $field['id'], $connections ) ) {
-			$this->save_related_post( $connections, $post_id, $field, $value );
+
+			$faq_to_remove_from = array();
+			$faq_to_add_to = array();
+
+			$previous_values = get_post_meta( $post_id, $field['id'], false );
+			//If we are adding a new field.
+			if ( ! empty( $previous_values )  ) {
+
+				if ( ! empty( $values ) ) {
+					$faq_to_remove_from = array_diff( $previous_values, $values );
+					$faq_to_add_to = array_diff( $values, $previous_values );
+				} else {
+					$faq_to_add_to = $values;
+					$faq_to_remove_from = $previous_values;
+				}
+
+			} else if ( ! empty( $values ) ) {
+				$faq_to_add_to = $values;
+			}
+
+			//Run through and remove the items.
+			if ( ! empty( $faq_to_remove_from ) && '' !== $faq_to_remove_from ) {
+				if ( ! is_array( $faq_to_remove_from ) ) {
+					$faq_to_remove_from = array( $faq_to_remove_from );
+				}
+				foreach ( $faq_to_remove_from as $faq_post ) {
+
+					$previous_faq_posts = get_post_meta( $faq_post, 'lsx_faq_posts', true );
+					if ( ! empty( $previous_faq_posts ) && '' !== $previous_faq_posts  ) {
+						$temp = $previous_faq_posts;
+						foreach( $previous_faq_posts as $pfp_key => $pfp_value ) {
+							if ( $pfp_value === $pfp_value ) {
+								unset( $temp[ $pfp_key ] );
+							}
+						}
+						update_post_meta( $faq_post, 'lsx_faq_posts', $temp, $previous_faq_posts );
+					}
+				}
+			}
+
+
+			if ( ! empty( $faq_to_add_to ) && '' !== $faq_to_add_to ) {
+				if ( ! is_array( $faq_to_add_to ) ) {
+					$faq_to_add_to = array( $faq_to_add_to );
+				}
+				foreach ( $faq_to_add_to as $faq_post_to_add ) {
+					$current_products = get_post_meta( $faq_post_to_add, 'lsx_faq_posts', true );
+					$previous_products = $current_products;
+					if ( is_array( $current_products ) && ! empty( $current_products ) && in_array( $post_id, $current_products ) ) {
+						continue;
+					}
+
+					if ( ! is_array( $current_products ) ) {
+						$current_products = array( $current_products );
+					}
+					$current_products[] = $post_id;
+					update_post_meta( $faq_post_to_add, 'lsx_faq_posts', $current_products, $previous_products );
+				}
+			}
 		}
 	}
 
