@@ -465,7 +465,7 @@ class LSX_FAQ_Admin
 					if ( ! empty( $previous_faq_posts ) && '' !== $previous_faq_posts  ) {
 						$temp = $previous_faq_posts;
 						foreach( $previous_faq_posts as $pfp_key => $pfp_value ) {
-							if ( $pfp_value === $post_id ) {
+							if ( $pfp_value == $post_id ) {
 								unset( $temp[ $pfp_key ] );
 							}
 						}
