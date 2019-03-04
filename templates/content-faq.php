@@ -30,4 +30,4 @@ if ( $terms && ! is_wp_error( $terms ) ) {
 	<?php the_title(); ?><div class="plus-minus-toggle collapsed"></div></h3>
 
 
-	<div class="answer"><?php the_content(); ?></div></li>
+	<div class="answer"><?php echo $post->post_content; ?></div></li>
