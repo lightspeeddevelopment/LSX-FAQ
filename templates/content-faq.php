@@ -27,7 +27,11 @@ if ( $terms && ! is_wp_error( $terms ) ) {
 
 	<li><h3 class="question">
 			<?php if ( is_tax() || is_single() ) { ?><span class="faq-counter"><?php echo esc_attr( $faq_counter ); $faq_counter++; ?>)</span><?php } ?>
-	<?php the_title(); ?><div class="plus-minus-toggle collapsed"></div></h3>
+		<?php the_title(); ?><div class="plus-minus-toggle collapsed"></div></h3>
+	<?php if ( is_product() ) { ?>
+		<div class="answer"><?php echo the_content(); ?></div></li>
+	<?php } else { ?>
+		<div class="answer"><?php echo $post->post_content; ?></div></li>
+	<?php } ?>
 
-
-	<div class="answer"><?php echo $post->post_content; ?></div></li>
+	
