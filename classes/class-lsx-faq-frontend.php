@@ -71,7 +71,7 @@ class LSX_FAQ_Frontend
 	 * @return    string
 	 */
 	public function taxonomy_template_include( $template ) {
-		if ( is_main_query() && is_tax( array( 'faq-category' ) ) ) {
+		if ( is_main_query() && is_tax( array( 'faq-category', 'faq-tags' ) ) ) {
 			$current_taxonomy = get_query_var( 'taxonomy' );
 			if ( '' == locate_template( array( 'taxonomy-' . $current_taxonomy . '.php' ) ) && file_exists( LSX_FAQ_PATH . 'templates/taxonomy-' . $current_taxonomy . '.php' ) ) {
 				$template = LSX_FAQ_PATH . 'templates/taxonomy-' . $current_taxonomy . '.php';
