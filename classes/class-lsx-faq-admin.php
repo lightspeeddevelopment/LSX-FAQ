@@ -48,6 +48,10 @@ class LSX_FAQ_Admin
 			add_action( "{$taxonomy}_edit_form_fields", array( $this, 'add_thumbnail_form_field' ), 3, 1 );
 		}
 
+		if ( is_admin() ) {
+			add_filter( 'lsx_customizer_colour_selectors_body', array( $this, 'customizer_body_colours_handler' ), 15, 2 );
+		}
+
 	}
 	/**
 	 * Return an instance of this class.
@@ -496,5 +500,26 @@ class LSX_FAQ_Admin
 		}
 	}
 
+	/**
+	 * Handle body colours that might be change by LSX Customiser.
+	 */
+	public function customizer_body_colours_handler( $css, $colors ) {
+		$css .= '
+			@import "' . LSX_SEARCH_PATH . '/assets/css/scss/customizer-faq-body-colours";
+
+			/**
+			 * LSX Customizer - Body (LSX FAQ)
+			 */
+			@include customizer-faq-body-colours (
+				$bg: 		' . $colors['background_color'] . ',
+				$breaker: 	' . $colors['body_line_color'] . ',
+				$color:    	' . $colors['body_text_color'] . ',
+				$link:    	' . $colors['body_link_color'] . ',
+				$hover:    	' . $colors['body_link_hover_color'] . ',
+				$small:    	' . $colors['body_text_small_color'] . '
+			);
+		';
+
+		return $css;
+	}
 }
-//end class
