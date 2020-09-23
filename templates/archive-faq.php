@@ -10,18 +10,21 @@ get_header(); ?>
 <?php lsx_content_wrap_before(); ?>
 
 <?php
-	$main_class = 'col-sm-12';
 
+	$is_search_active = false;
+	if ( isset( $_GET['fwp_faq_search'] ) || isset( $_GET['fwp_faq_category'] ) || isset( $_GET['fwp_faq_tags'] ) ) {
+		$is_search_active = true;
+	}
+
+	$main_class = 'col-sm-12';
 	$args = array(
 		'taxonomy'   => 'faq-category',
 		'hide_empty' => false,
 	);
-
 	$faq_categories = get_terms( $args );
-
 ?>
 
-<?php if ( ! empty( $_GET ) ) { ?>
+<?php if ( $is_search_active ) { ?>
 	<div id="secondary" class="col-md-4 widget-area">
 		<div class="widget">
 			<h3><?php _e( 'Search' ); ?></h3>
@@ -54,10 +57,9 @@ get_header(); ?>
 
 		<?php lsx_content_top(); ?>
 
-
 		<?php
-		//If the search is empty show the categories
-		if ( empty( $_GET ) ) { ?>
+		// If the search is empty show the categories.
+		if ( ! $is_search_active ) { ?>
 
 			<div class="col-xs-12 col-sm-12 col-md-12">
 				<div class="row">
